@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
@@ -7,25 +6,38 @@ const Banner = () => {
   const [activeImage, setActiveImage] = useState(0);
   const images = [
     {
-      url: 'https://images.unsplash.com/photo-1630005128856-9b8473b3db83?q=80&w=2070&auto=format&fit=crop',
-      alt: 'Honda NSX on track',
+      url: '/Pictures/track.jpg',
+      alt: 'Honda on track',
+      duration: 10000, // 10 seconds for the track image
     },
     {
-      url: 'https://images.unsplash.com/photo-1666919643134-d97687c1826c?q=80&w=2071&auto=format&fit=crop',
+      url: '/Pictures/nsx.jpg',
+      alt: 'Honda NSX',
+      duration: 5000, // 5 seconds for other images
+    },
+    {
+      url: '/Pictures/typer.jpg',
       alt: 'Honda Type R',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1632245889029-e406faaa34cd?q=80&w=2070&auto=format&fit=crop',
-      alt: 'Honda S2000',
+      duration: 5000,
     },
   ];
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveImage((current) => (current + 1) % images.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [images.length]);
+    let timeoutId: NodeJS.Timeout;
+    
+    const rotateImage = () => {
+      const currentImage = images[activeImage];
+      timeoutId = setTimeout(() => {
+        setActiveImage((current) => (current + 1) % images.length);
+      }, currentImage.duration);
+    };
+
+    rotateImage();
+    
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [activeImage, images]);
 
   const scrollToNextSection = () => {
     const aboutSection = document.getElementById('about');

@@ -66,12 +66,13 @@ const Registration = () => {
   ];
 
   return (
-    <section id="registration" className="py-24 bg-honda-light">
+    <section id="registration" className="py-16 md:py-24 bg-white relative">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
-          <span className="text-honda-red">INSCRIPTION</span> <span className="text-black">& TARIFS</span>
+          <span className="text-honda-red font-display">INSCRIPTION</span>
+          <span className="text-black/90 ml-2">& TARIFS</span>
         </h2>
-        <p className="text-center mb-12 text-black max-w-2xl mx-auto">
+        <p className="text-center mb-12 text-black/70 max-w-2xl mx-auto text-base md:text-lg">
           Choisissez la formule qui correspond à vos envies et à votre véhicule.
           Paiement sécurisé par carte bancaire ou PayPal.
         </p>
@@ -80,31 +81,35 @@ const Registration = () => {
           {packages.map((pkg, index) => (
             <Card 
               key={index} 
-              className={`overflow-hidden hover-scale transition-all duration-300 ${
-                pkg.highlight ? 'shadow-xl border-honda-red/40 relative' : 'shadow-md'
-              } ${pkg.title === "NSX Club VIP" ? 'border-honda-gold/30' : ''}`}
+              className={`overflow-hidden transform transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] ${
+                pkg.highlight ? 'shadow-xl border-honda-red relative bg-white' : 'shadow-md bg-white'
+              } ${pkg.title === "NSX Club VIP" ? 'border-honda-gold' : ''}`}
             >
               {pkg.highlight && (
-                <div className="absolute top-0 right-0 bg-honda-red text-white px-3 py-1 text-xs font-medium">
+                <div className="absolute -top-4 right-4 bg-honda-red text-white px-4 py-1 text-xs font-medium rounded-full shadow-md">
                   POPULAIRE
                 </div>
               )}
               {pkg.title === "NSX Club VIP" && (
-                <div className="absolute top-0 right-0 bg-honda-gold text-honda-dark px-3 py-1 text-xs font-medium">
+                <div className="absolute -top-4 right-4 bg-honda-gold text-honda-dark px-4 py-1 text-xs font-medium rounded-full shadow-md">
                   VIP
                 </div>
               )}
               <CardHeader className={`pb-4 ${pkg.highlight ? 'bg-honda-red/5' : ''} ${pkg.title === "NSX Club VIP" ? 'bg-honda-gold/5' : ''}`}>
                 <div className="flex justify-center mb-4">
-                  {pkg.icon}
+                  <div className={`p-3 rounded-full ${
+                    pkg.title === "NSX Club VIP" ? 'bg-honda-gold/10' : 'bg-honda-red/10'
+                  }`}>
+                    {pkg.icon}
+                  </div>
                 </div>
-                <CardTitle className="text-xl text-center">{pkg.title}</CardTitle>
-                <CardDescription className="text-center">{pkg.description}</CardDescription>
+                <CardTitle className="text-xl text-center text-black/90">{pkg.title}</CardTitle>
+                <CardDescription className="text-center text-black/60">{pkg.description}</CardDescription>
               </CardHeader>
               <CardContent className="pt-0">
                 <div className="text-center mb-6">
-                  <span className="text-3xl font-bold">{pkg.price}</span>
-                  <span className="text-honda-gray"> / week-end</span>
+                  <span className="text-3xl font-bold text-black/90">{pkg.price}</span>
+                  <span className="text-black/60"> / week-end</span>
                 </div>
                 <ul className="space-y-3">
                   {pkg.features.map((feature, i) => (
@@ -112,19 +117,19 @@ const Registration = () => {
                       <Check className={`h-5 w-5 mr-2 shrink-0 mt-0.5 ${
                         pkg.title === "NSX Club VIP" ? 'text-honda-gold' : 'text-honda-red'
                       }`} />
-                      <span className="text-sm">{feature}</span>
+                      <span className="text-sm text-black/70">{feature}</span>
                     </li>
                   ))}
                 </ul>
               </CardContent>
               <CardFooter>
                 <Button 
-                  className={`w-full py-6 ${
+                  className={`w-full py-6 transform transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] ${
                     pkg.highlight 
-                      ? 'bg-honda-red hover:bg-honda-hover-red text-white' 
+                      ? 'bg-honda-red text-white shadow-md hover:shadow-lg hover:bg-honda-hover-red' 
                       : pkg.title === "NSX Club VIP"
-                        ? 'bg-honda-gold hover:bg-honda-gold/90 text-honda-dark'
-                        : 'bg-honda-dark hover:bg-honda-dark/90 text-white'
+                        ? 'bg-honda-gold text-honda-dark shadow-md hover:shadow-lg hover:bg-honda-gold/90'
+                        : 'bg-honda-dark text-white shadow-md hover:shadow-lg hover:bg-honda-dark/90'
                   }`}
                 >
                   Je m'inscris
@@ -134,16 +139,16 @@ const Registration = () => {
           ))}
         </div>
         
-        <div className="mt-16 max-w-2xl mx-auto text-center">
-          <h3 className="text-xl font-semibold mb-4 text-black">Paiement sécurisé</h3>
-          <p className="text-black mb-6">
+        <div className="mt-16 max-w-2xl mx-auto text-center bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
+          <h3 className="text-xl font-semibold mb-4 text-black/90">Paiement sécurisé</h3>
+          <p className="text-black/70 mb-8 text-base md:text-lg">
             Votre inscription n'est validée qu'après réception du paiement. Un email de confirmation
             vous sera envoyé avec tous les détails pratiques.
           </p>
-          <div className="flex justify-center gap-4">
-            <img src="https://cdn.worldvectorlogo.com/logos/visa-2.svg" alt="Visa" className="h-8" />
-            <img src="https://cdn.worldvectorlogo.com/logos/mastercard-2.svg" alt="Mastercard" className="h-8" />
-            <img src="https://cdn.worldvectorlogo.com/logos/paypal-2.svg" alt="PayPal" className="h-8" />
+          <div className="flex justify-center gap-6 items-center">
+            <img src="https://cdn.worldvectorlogo.com/logos/visa-2.svg" alt="Visa" className="h-8 md:h-10 opacity-80 hover:opacity-100 transition-opacity duration-200" />
+            <img src="https://cdn.worldvectorlogo.com/logos/mastercard-2.svg" alt="Mastercard" className="h-8 md:h-10 opacity-80 hover:opacity-100 transition-opacity duration-200" />
+            <img src="https://cdn.worldvectorlogo.com/logos/paypal-2.svg" alt="PayPal" className="h-8 md:h-10 opacity-80 hover:opacity-100 transition-opacity duration-200" />
           </div>
         </div>
       </div>

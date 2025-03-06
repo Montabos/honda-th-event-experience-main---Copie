@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -12,46 +11,45 @@ const CarShowcase = () => {
   const carImages = [
     {
       type: "image",
-      url: "https://images.unsplash.com/photo-1630005128856-9b8473b3db83?q=80&w=2070&auto=format&fit=crop",
-      alt: "Honda NSX on track",
-      caption: "Honda NSX sur le Circuit de Mornay"
+      url: "/Pictures/nsx.jpg",
+      alt: "Honda NSX",
+      caption: "Honda NSX - L'excellence Honda"
     },
     {
       type: "image",
-      url: "https://images.unsplash.com/photo-1666919643134-d97687c1826c?q=80&w=2071&auto=format&fit=crop",
+      url: "/Pictures/typer.jpg",
       alt: "Honda Civic Type R",
-      caption: "Honda Civic Type R - Edition Limitée"
+      caption: "Honda Civic Type R - La référence sur circuit"
     },
     {
       type: "image",
-      url: "https://images.unsplash.com/photo-1632245889029-e406faaa34cd?q=80&w=2070&auto=format&fit=crop",
-      alt: "Honda S2000",
-      caption: "Honda S2000 en configuration circuit"
+      url: "/Pictures/track.jpg",
+      alt: "Honda on track",
+      caption: "Honda en action sur le Circuit de Mornay"
     },
     {
       type: "image",
-      url: "https://images.unsplash.com/photo-1611429532458-f8bf8f6121fe?q=80&w=2070&auto=format&fit=crop",
-      alt: "Honda Type R",
-      caption: "Type R - Performance sur mesure"
+      url: "/Pictures/2020_honda_civic_type_r-50227.jpg",
+      alt: "Honda Civic Type R",
+      caption: "Type R - Performance ultime"
     },
     {
       type: "image",
-      url: "https://images.unsplash.com/photo-1625895197185-efcec01cffe0?q=80&w=2070&auto=format&fit=crop",
-      alt: "Honda S2000 Yellow",
-      caption: "S2000 - La légendaire roadster japonaise"
+      url: "/Pictures/2021-honda-civic-type-r-tcr-5.jpg",
+      alt: "Honda Civic Type R TCR",
+      caption: "Type R TCR - La compétition dans l'ADN"
     },
     {
       type: "image",
-      url: "https://images.unsplash.com/photo-1631383591154-5be12feb3036?q=80&w=2070&auto=format&fit=crop",
-      alt: "Honda NSX Silver",
-      caption: "NSX - La supercar Honda dans toute sa splendeur"
+      url: "/Pictures/2023_Honda_Civic_FL5_TCR_1056-large.jpg",
+      alt: "Honda Civic FL5 TCR",
+      caption: "Nouvelle Civic FL5 TCR - L'évolution de la performance"
     },
     {
-      type: "video",
-      url: "https://player.vimeo.com/video/361865774?autoplay=0",
-      poster: "https://images.unsplash.com/photo-1623013438264-d176fb91444d?q=80&w=2070&auto=format&fit=crop",
-      alt: "Honda Civic Type R on track",
-      caption: "Type R en action - Piste de Mornay"
+      type: "image",
+      url: "/Pictures/a741fa4caa80ad5701902104c3fa84b1.jpg",
+      alt: "Honda Type R Racing",
+      caption: "Type R - L'esprit racing"
     }
   ];
 

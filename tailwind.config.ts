@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -136,8 +135,8 @@ export default {
           '100%': { transform: 'translateX(-50%)' }
         },
         'float': {
-          '0%': { transform: 'translateY(0)' },
-          '100%': { transform: 'translateY(-10px)' }
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-4px)' }
         }
 			},
 			animation: {
@@ -147,7 +146,7 @@ export default {
         'slide-in': 'slide-in 0.5s ease-out forwards',
         'zoom-in': 'zoom-in 0.3s ease-out forwards',
         'banner-scroll': 'banner-scroll 30s linear infinite',
-        'float': 'float 3s ease-in-out infinite'
+        'float': 'float 12s cubic-bezier(0.47, 0, 0.53, 1) infinite'
 			},
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],

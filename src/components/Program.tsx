@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
@@ -35,27 +34,55 @@ const Program = () => {
         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
           PROGRAMME <span className="text-honda-red">DÉTAILLÉ</span>
         </h2>
-        <p className="text-center mb-12 text-honda-textMuted max-w-2xl mx-auto">
+        <p className="text-center mb-16 md:mb-20 text-honda-textMuted max-w-2xl mx-auto">
           Découvrez notre programme complet avec ses sessions de roulage, parades,
           expositions et animations tout au long du week-end.
         </p>
         
         <div className="max-w-4xl mx-auto">
           <Tabs defaultValue="saturday" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-8">
+            <TabsList className="grid w-full grid-cols-2 gap-8 mb-16 p-0.5 bg-transparent">
               <TabsTrigger 
                 value="saturday" 
-                className={`text-lg py-3 ${activeDay === 'saturday' ? 'bg-honda-red' : 'bg-honda-dark/50'}`}
+                className={`
+                  relative py-3 px-8
+                  transition-all duration-300 ease-in-out
+                  border-b-2 
+                  data-[state=active]:border-honda-red
+                  data-[state=inactive]:border-transparent
+                  hover:border-honda-red/50
+                  ${activeDay === 'saturday' ? 'text-white' : 'text-white/60'}
+                `}
                 onClick={() => setActiveDay("saturday")}
               >
-                Samedi 21 Juin
+                <div className="flex flex-col items-center">
+                  <span className="text-xs tracking-wider uppercase mb-1 font-light">Samedi</span>
+                  <span className="text-xl font-medium tracking-wide">21 Juin</span>
+                </div>
+                <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full transition-all duration-300 ${
+                  activeDay === 'saturday' ? 'bg-honda-red' : 'bg-transparent'
+                }`}></div>
               </TabsTrigger>
               <TabsTrigger 
                 value="sunday" 
-                className={`text-lg py-3 ${activeDay === 'sunday' ? 'bg-honda-red' : 'bg-honda-dark/50'}`}
+                className={`
+                  relative py-3 px-8
+                  transition-all duration-300 ease-in-out
+                  border-b-2
+                  data-[state=active]:border-honda-red
+                  data-[state=inactive]:border-transparent
+                  hover:border-honda-red/50
+                  ${activeDay === 'sunday' ? 'text-white' : 'text-white/60'}
+                `}
                 onClick={() => setActiveDay("sunday")}
               >
-                Dimanche 22 Juin
+                <div className="flex flex-col items-center">
+                  <span className="text-xs tracking-wider uppercase mb-1 font-light">Dimanche</span>
+                  <span className="text-xl font-medium tracking-wide">22 Juin</span>
+                </div>
+                <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full transition-all duration-300 ${
+                  activeDay === 'sunday' ? 'bg-honda-red' : 'bg-transparent'
+                }`}></div>
               </TabsTrigger>
             </TabsList>
             
