@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { MenuIcon, X } from "lucide-react";
@@ -63,11 +62,11 @@ const Header = () => {
 
       {/* Mobile Menu */}
       <div 
-        className={`fixed inset-0 bg-honda-dark pt-16 z-40 transform transition-transform duration-300 ${
+        className={`fixed inset-0 bg-honda-dark pt-16 z-40 w-full min-h-screen overflow-y-auto transform transition-transform duration-300 ${
           mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <nav className="flex flex-col items-center space-y-6 pt-10">
+        <nav className="flex flex-col items-center space-y-6 pt-10 px-4">
           <a href="#about" className="text-white text-xl hover:text-honda-red transition-colors duration-200" onClick={() => setMobileMenuOpen(false)}>À propos</a>
           <a href="#program" className="text-white text-xl hover:text-honda-red transition-colors duration-200" onClick={() => setMobileMenuOpen(false)}>Programme</a>
           <a href="#registration" className="text-white text-xl hover:text-honda-red transition-colors duration-200" onClick={() => setMobileMenuOpen(false)}>Inscription</a>

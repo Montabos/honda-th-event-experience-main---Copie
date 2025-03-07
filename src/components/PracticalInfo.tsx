@@ -76,16 +76,6 @@ const PracticalInfo = () => {
         <div className="mt-16 max-w-3xl mx-auto">
           <h3 className="text-xl font-semibold mb-8 text-center text-black/90">Questions fréquentes</h3>
           <Accordion type="single" collapsible className="w-full space-y-4">
-            <AccordionItem value="item-1" className="border rounded-xl overflow-hidden bg-white">
-              <AccordionTrigger className="text-black/90 hover:text-honda-red px-6 py-4 transition-all duration-200">
-                Le circuit est-il couvert en cas de pluie ?
-              </AccordionTrigger>
-              <AccordionContent className="text-black/70 px-6 pb-4">
-                Non, le Circuit de Mornay étant un circuit extérieur, l'événement se déroule 
-                sous réserve des conditions météorologiques. En cas de forte pluie, les sessions 
-                de roulage peuvent être temporairement suspendues pour des raisons de sécurité.
-              </AccordionContent>
-            </AccordionItem>
             
             <AccordionItem value="item-2" className="border rounded-xl overflow-hidden bg-white">
               <AccordionTrigger className="text-black/90 hover:text-honda-red px-6 py-4 transition-all duration-200">

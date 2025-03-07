@@ -82,21 +82,21 @@ const Registration = () => {
             <Card 
               key={index} 
               className={`overflow-hidden transform transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] ${
-                pkg.highlight ? 'shadow-xl border-honda-red relative bg-white' : 'shadow-md bg-white'
-              } ${pkg.title === "NSX Club VIP" ? 'border-honda-gold' : ''}`}
+                pkg.highlight ? 'shadow-xl border-t-2 border-t-honda-red border border-gray-100 relative bg-white' : 'shadow-md bg-white'
+              } ${pkg.title === "NSX Club VIP" ? 'border-t-2 border-t-honda-gold border border-gray-100' : ''}`}
             >
               {pkg.highlight && (
-                <div className="absolute -top-4 right-4 bg-honda-red text-white px-4 py-1 text-xs font-medium rounded-full shadow-md">
+                <div className="absolute top-2 right-4 bg-honda-red text-white px-3 py-0.5 text-[10px] font-medium rounded-full shadow-sm">
                   POPULAIRE
                 </div>
               )}
               {pkg.title === "NSX Club VIP" && (
-                <div className="absolute -top-4 right-4 bg-honda-gold text-honda-dark px-4 py-1 text-xs font-medium rounded-full shadow-md">
+                <div className="absolute top-2 right-4 bg-honda-gold text-honda-dark px-3 py-0.5 text-[10px] font-medium rounded-full shadow-sm">
                   VIP
                 </div>
               )}
-              <CardHeader className={`pb-4 ${pkg.highlight ? 'bg-honda-red/5' : ''} ${pkg.title === "NSX Club VIP" ? 'bg-honda-gold/5' : ''}`}>
-                <div className="flex justify-center mb-4">
+              <CardHeader className={`pb-2 ${pkg.highlight ? 'bg-honda-red/5' : ''} ${pkg.title === "NSX Club VIP" ? 'bg-honda-gold/5' : ''}`}>
+                <div className="flex justify-center mb-2">
                   <div className={`p-3 rounded-full ${
                     pkg.title === "NSX Club VIP" ? 'bg-honda-gold/10' : 'bg-honda-red/10'
                   }`}>
@@ -104,12 +104,15 @@ const Registration = () => {
                   </div>
                 </div>
                 <CardTitle className="text-xl text-center text-black/90">{pkg.title}</CardTitle>
-                <CardDescription className="text-center text-black/60">{pkg.description}</CardDescription>
+                <CardDescription className="text-center text-black/60 min-h-[48px]">{pkg.description}</CardDescription>
               </CardHeader>
               <CardContent className="pt-0">
-                <div className="text-center mb-6">
-                  <span className="text-3xl font-bold text-black/90">{pkg.price}</span>
-                  <span className="text-black/60"> / week-end</span>
+                <div className="text-center mb-6 h-[60px] flex flex-col justify-center">
+                  <div className="flex items-baseline justify-center">
+                    <span className="text-4xl font-bold text-black/90">{pkg.price.replace('€', '')}</span>
+                    <span className="text-xl font-medium text-black/90 ml-1">€</span>
+                  </div>
+                  <span className="text-sm text-black/60 mt-1">/ week-end</span>
                 </div>
                 <ul className="space-y-3">
                   {pkg.features.map((feature, i) => (
