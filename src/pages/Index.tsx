@@ -3,7 +3,7 @@ import Header from '@/components/Header';
 import Banner from '@/components/Banner';
 import EventInfo from '@/components/EventInfo';
 import Program from '@/components/Program';
-import Registration from '@/components/Registration';
+import RegistrationCards from '@/components/Registration';
 import CarShowcase from '@/components/CarShowcase';
 import PracticalInfo from '@/components/PracticalInfo';
 import Reviews from '@/components/Reviews';
@@ -29,7 +29,7 @@ const Index = () => {
       <Banner />
       <EventInfo />
       <Program />
-      <Registration />
+      <RegistrationCards />
       <CarShowcase />
       <PracticalInfo />
       <Reviews />

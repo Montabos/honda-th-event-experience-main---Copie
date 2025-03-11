@@ -52,6 +52,21 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				honda: {
+					red: '#E60012',
+					dark: '#101010',
+					light: '#F7F7F7',
+					gray: '#D8D8D8',
+					text: '#FFFFFF',
+					textMuted: '#E0E0E0',
+					textOnGray: '#000000',
+					textOnLight: '#000000',
+					anthracite: '#1F1F1F',
+					gold: '#D4AF37',
+					hover: {
+						red: '#B0000E',
+					}
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -62,21 +77,6 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-        honda: {
-          red: '#E60012',       
-          dark: '#101010',      
-          light: '#F7F7F7',     
-          gray: '#D8D8D8',      // Updated to a lighter gray for better readability
-          text: '#FFFFFF',      // Added dedicated text color for dark backgrounds
-          textMuted: '#E0E0E0', // Added muted text that's still readable
-          textOnGray: '#000000', // Added text color for gray backgrounds
-          textOnLight: '#000000', // Added text color for light backgrounds
-          anthracite: '#1F1F1F',
-          gold: '#D4AF37',      
-          hover: {
-            red: '#B0000E',    
-          }
-        }
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -100,58 +100,58 @@ export default {
 						height: '0'
 					}
 				},
-        'fade-in': {
-          '0%': {
-            opacity: '0',
-            transform: 'translateY(10px)'
-          },
-          '100%': {
-            opacity: '1',
-            transform: 'translateY(0)'
-          }
-        },
-        'slide-in': {
-          '0%': {
-            transform: 'translateX(-20px)',
-            opacity: '0'
-          },
-          '100%': {
-            transform: 'translateX(0)',
-            opacity: '1'
-          }
-        },
-        'zoom-in': {
-          '0%': {
-            transform: 'scale(0.95)',
-            opacity: '0'
-          },
-          '100%': {
-            transform: 'scale(1)',
-            opacity: '1'
-          }
-        },
-        'banner-scroll': {
-          '0%': { transform: 'translateX(0)' },
-          '100%': { transform: 'translateX(-50%)' }
-        },
-        'float': {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-4px)' }
-        }
+				'fade-in': {
+					'0%': {
+						opacity: '0',
+						transform: 'translateY(10px)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
+				},
+				'slide-in': {
+					'0%': {
+						transform: 'translateX(-20px)',
+						opacity: '0'
+					},
+					'100%': {
+						transform: 'translateX(0)',
+						opacity: '1'
+					}
+				},
+				'zoom-in': {
+					'0%': {
+						transform: 'scale(0.95)',
+						opacity: '0'
+					},
+					'100%': {
+						transform: 'scale(1)',
+						opacity: '1'
+					}
+				},
+				'banner-scroll': {
+					'0%': { transform: 'translateX(0)' },
+					'100%': { transform: 'translateX(-50%)' }
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-4px)' }
+				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-        'fade-in': 'fade-in 0.5s ease-out forwards',
-        'slide-in': 'slide-in 0.5s ease-out forwards',
-        'zoom-in': 'zoom-in 0.3s ease-out forwards',
-        'banner-scroll': 'banner-scroll 30s linear infinite',
-        'float': 'float 12s cubic-bezier(0.47, 0, 0.53, 1) infinite'
+				'fade-in': 'fade-in 0.5s ease-out forwards',
+				'slide-in': 'slide-in 0.5s ease-out forwards',
+				'zoom-in': 'zoom-in 0.3s ease-out forwards',
+				'banner-scroll': 'banner-scroll 30s linear infinite',
+				'float': 'float 12s cubic-bezier(0.47, 0, 0.53, 1) infinite'
 			},
-      fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['SF Pro Display', 'Inter', 'system-ui', 'sans-serif']
-      }
+			fontFamily: {
+				sans: ['Inter', 'system-ui', 'sans-serif'],
+				display: ['SF Pro Display', 'Inter', 'system-ui', 'sans-serif']
+			}
 		}
 	},
 	plugins: [require("tailwindcss-animate")],

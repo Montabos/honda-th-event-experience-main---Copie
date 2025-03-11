@@ -8,10 +8,16 @@ import {
   CardTitle 
 } from "@/components/ui/card";
 import { User, Car, PanelTop, Award, Check } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast";
 
-const Registration = () => {
+const RegistrationCards = () => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
   const packages = [
     {
+      id: "visiteur",
       title: "Visiteur",
       price: "20€",
       icon: <User className="h-10 w-10 text-honda-red" />,
@@ -22,9 +28,11 @@ const Registration = () => {
         "Accès à l'exposition statique",
         "Accès aux animations et concerts"
       ],
-      highlight: false
+      highlight: false,
+      route: "/pack/visiteur"
     },
     {
+      id: "static",
       title: "Exposition statique",
       price: "30€",
       icon: <Car className="h-10 w-10 text-honda-red" />,
@@ -35,9 +43,11 @@ const Registration = () => {
         "Accès à l'expo par modèle",
         "Badge participant exclusif"
       ],
-      highlight: false
+      highlight: false,
+      route: "/pack/statique"
     },
     {
+      id: "track",
       title: "Accès piste",
       price: "270€",
       icon: <PanelTop className="h-10 w-10 text-honda-red" />,
@@ -48,12 +58,14 @@ const Registration = () => {
         "Briefing de sécurité",
         "Assurance RC Circuit incluse"
       ],
-      highlight: true
+      highlight: true,
+      route: "/pack/piste"
     },
     {
+      id: "nsx-vip",
       title: "NSX Club VIP",
       price: "45€",
-      icon: <Award className="h-10 w-10 text-honda-gold" />, /* Updated to gold for VIP */
+      icon: <Award className="h-10 w-10 text-honda-gold" />,
       description: "Pack exclusif pour les propriétaires NSX",
       features: [
         "Tous les avantages du pack Exposition",
@@ -61,9 +73,27 @@ const Registration = () => {
         "Session exclusive NSX sur circuit",
         "Goodies exclusifs NSX Club"
       ],
-      highlight: false
+      highlight: false,
+      route: "/pack/nsx-club"
     }
   ];
+
+  const handleRegistration = (pack) => {
+    toast({
+      title: "Navigation en cours",
+      description: `Redirection vers ${pack.route}`,
+    });
+
+    try {
+      navigate(pack.route, { 
+        state: { pack },
+        replace: false
+      });
+    } catch (error) {
+      console.error('Navigation error:', error);
+      window.location.href = pack.route;
+    }
+  };
 
   return (
     <section id="registration" className="py-16 md:py-24 bg-white relative">
@@ -78,12 +108,13 @@ const Registration = () => {
         </p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-          {packages.map((pkg, index) => (
+          {packages.map((pkg) => (
             <Card 
-              key={index} 
-              className={`overflow-hidden transform transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] ${
+              key={pkg.id} 
+              className={`overflow-hidden transform transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer ${
                 pkg.highlight ? 'shadow-xl border-t-2 border-t-honda-red border border-gray-100 relative bg-white' : 'shadow-md bg-white'
               } ${pkg.title === "NSX Club VIP" ? 'border-t-2 border-t-honda-gold border border-gray-100' : ''}`}
+              onClick={() => handleRegistration(pkg)}
             >
               {pkg.highlight && (
                 <div className="absolute top-2 right-4 bg-honda-red text-white px-3 py-0.5 text-[10px] font-medium rounded-full shadow-sm">
@@ -127,6 +158,10 @@ const Registration = () => {
               </CardContent>
               <CardFooter>
                 <Button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRegistration(pkg);
+                  }}
                   className={`w-full py-6 transform transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] ${
                     pkg.highlight 
                       ? 'bg-honda-red text-white shadow-md hover:shadow-lg hover:bg-honda-hover-red' 
@@ -159,5 +194,4 @@ const Registration = () => {
   );
 };
 
-export default Registration;
-
+export default RegistrationCards;

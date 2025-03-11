@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { MenuIcon, X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,6 +24,26 @@ const Header = () => {
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  const handleRegistration = () => {
+    setMobileMenuOpen(false); // Ferme le menu mobile si ouvert
+    navigate('/pack/visiteur', { 
+      state: { 
+        pack: {
+          id: "visitor",
+          title: "Visiteur",
+          price: "20€",
+          description: "Accès visiteur pour tout le week-end",
+          features: [
+            "Accès au paddock",
+            "Accès aux zones spectateurs",
+            "Accès à l'exposition statique",
+            "Accès aux animations et concerts"
+          ]
+        }
+      }
+    });
   };
 
   return (
@@ -48,6 +70,7 @@ const Header = () => {
           <Button 
             variant="default" 
             className="bg-honda-red hover:bg-honda-hover-red text-white px-6 hover:scale-105 transition-transform duration-200"
+            onClick={handleRegistration}
           >
             Inscription
           </Button>
@@ -77,7 +100,7 @@ const Header = () => {
           <Button 
             variant="default" 
             className="bg-honda-red hover:bg-honda-hover-red text-white px-8 py-6 mt-6"
-            onClick={() => setMobileMenuOpen(false)}
+            onClick={handleRegistration}
           >
             Inscription
           </Button>

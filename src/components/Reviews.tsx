@@ -1,8 +1,31 @@
 import { useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Star, Quote } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const Reviews = () => {
+  const navigate = useNavigate();
+
+  const handleRegistration = () => {
+    navigate('/pack/visiteur', { 
+      state: { 
+        pack: {
+          id: "visitor",
+          title: "Visiteur",
+          price: "20€",
+          description: "Accès visiteur pour tout le week-end",
+          features: [
+            "Accès au paddock",
+            "Accès aux zones spectateurs",
+            "Accès à l'exposition statique",
+            "Accès aux animations et concerts"
+          ]
+        }
+      }
+    });
+  };
+
   const reviews = [
     {
       name: "Thomas Laurent",
@@ -92,9 +115,13 @@ const Reviews = () => {
           <p className="text-honda-textMuted mb-6">
             Rejoignez-nous cette année pour vivre une expérience inoubliable.
           </p>
-          <button className="bg-honda-red hover:bg-honda-hover-red text-white px-8 py-3 rounded-md transition-all duration-300">
+          <Button 
+            variant="default"
+            className="bg-honda-red hover:bg-honda-hover-red text-white px-8 py-3 rounded-md transition-all duration-300"
+            onClick={handleRegistration}
+          >
             Je m'inscris
-          </button>
+          </Button>
         </div>
       </div>
     </section>
