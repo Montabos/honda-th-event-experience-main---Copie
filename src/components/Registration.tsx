@@ -9,11 +9,9 @@ import {
 } from "@/components/ui/card";
 import { User, Car, PanelTop, Award, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "@/components/ui/use-toast";
 
 const RegistrationCards = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
 
   const packages = [
     {
@@ -79,20 +77,20 @@ const RegistrationCards = () => {
   ];
 
   const handleRegistration = (pack) => {
-    toast({
-      title: "Navigation en cours",
-      description: `Redirection vers ${pack.route}`,
-    });
+    const packData = {
+      id: pack.id,
+      title: pack.title,
+      price: pack.price,
+      description: pack.description,
+      features: pack.features,
+      highlight: pack.highlight,
+      route: pack.route
+    };
 
-    try {
-      navigate(pack.route, { 
-        state: { pack },
-        replace: false
-      });
-    } catch (error) {
-      console.error('Navigation error:', error);
-      window.location.href = pack.route;
-    }
+    navigate(pack.route, { 
+      state: { pack: packData },
+      replace: false
+    });
   };
 
   return (

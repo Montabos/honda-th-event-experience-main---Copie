@@ -25,10 +25,11 @@ const StaticPack = () => {
       {
         name: 'Participation aux concours',
         price: 10,
-        maxQuantity: 1,
+        maxQuantity: 3,
       },
     ],
     isPopular: true,
+    packType: 'statique' as const
   };
 
   return <PackRegistration {...packData} />;

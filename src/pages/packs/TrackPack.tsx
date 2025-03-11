@@ -19,15 +19,16 @@ const TrackPack = () => {
       {
         name: 'Passager supplémentaire',
         price: 5,
-        maxQuantity: 2,
+        maxQuantity: 3,
       },
       {
         name: 'Pilote supplémentaire',
         price: 10,
-        maxQuantity: 1,
+        maxQuantity: 3,
       },
     ],
     isPopular: true,
+    packType: 'piste' as const
   };
 
   return <PackRegistration {...packData} />;

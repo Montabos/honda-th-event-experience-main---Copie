@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface PackOption {
   id: string;
@@ -23,13 +24,9 @@ interface PackRegistrationProps {
     twoDays: number;
   };
   includes: string[];
-  additionalOptions?: {
-    name: string;
-    price: number;
-    maxQuantity: number;
-  }[];
   isPopular?: boolean;
   isExclusive?: boolean;
+  packType: 'visiteur' | 'piste' | 'statique' | 'nsx';
 }
 
 const dateOptions: PackOption[] = [
@@ -59,44 +56,254 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
   packIcon,
   prices,
   includes,
-  additionalOptions,
   isPopular,
-  isExclusive
+  isExclusive,
+  packType
 }) => {
   const [selectedDate, setSelectedDate] = useState<string>('');
-  const [selectedOptions, setSelectedOptions] = useState<Record<string, number>>({});
   const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [visitorCount, setVisitorCount] = useState(1);
+  const [pilotCount, setPilotCount] = useState(1);
+  const [passengerCount, setPassengerCount] = useState(0);
+  const [nsxType, setNsxType] = useState<'statique' | 'piste'>('statique');
 
-  const calculateTotalPrice = (date: string, options: Record<string, number>) => {
+  const calculateTotalPrice = (dateId?: string) => {
     let total = 0;
-    
-    // Prix de base selon la date
-    if (date === 'weekend') {
-      total += prices.twoDays;
-    } else if (date) {
-      total += prices.oneDay;
-    }
+    const basePrice = (dateId || selectedDate) === 'weekend' ? prices.twoDays : prices.oneDay;
 
-    // Ajouter le prix des options
-    Object.entries(options).forEach(([optionId, quantity]) => {
-      const option = additionalOptions?.find(opt => opt.name === optionId);
-      if (option) {
-        total += option.price * quantity;
-      }
-    });
+    switch (packType) {
+      case 'visiteur':
+        total = basePrice * visitorCount;
+        break;
+      case 'piste':
+        total = basePrice + 
+                (Math.max(0, pilotCount - 1) * 10) + 
+                (Math.max(0, passengerCount) * 5);
+        break;
+      case 'statique':
+        total = basePrice + (Math.max(0, passengerCount) * 5);
+        break;
+      case 'nsx':
+        if (nsxType === 'statique') {
+          total = ((dateId || selectedDate) === 'weekend' ? 45 : 30) + 
+                  (Math.max(0, passengerCount) * 5);
+        } else {
+          total = ((dateId || selectedDate) === 'weekend' ? 270 : 150) + 
+                  (Math.max(0, pilotCount - 1) * 10) + 
+                  (Math.max(0, passengerCount) * 5);
+        }
+        break;
+    }
 
     return total;
   };
 
-  const handleDateChange = (value: string) => {
-    setSelectedDate(value);
-    setTotalPrice(calculateTotalPrice(value, selectedOptions));
-  };
+  useEffect(() => {
+    if (selectedDate) {
+      setTotalPrice(calculateTotalPrice());
+    }
+  }, [selectedDate, visitorCount, pilotCount, passengerCount, nsxType]);
 
-  const handleOptionChange = (optionName: string, quantity: number) => {
-    const newOptions = { ...selectedOptions, [optionName]: quantity };
-    setSelectedOptions(newOptions);
-    setTotalPrice(calculateTotalPrice(selectedDate, newOptions));
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const renderOptions = () => {
+    switch (packType) {
+      case 'visiteur':
+        return (
+          <Card className="hover:shadow-lg transition-shadow duration-300">
+            <CardHeader>
+              <CardTitle>Nombre de visiteurs</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-between">
+                <span>Nombre de visiteurs</span>
+                <select
+                  className="border rounded p-2"
+                  value={visitorCount}
+                  onChange={(e) => setVisitorCount(parseInt(e.target.value))}
+                >
+                  {Array.from({ length: 10 }).map((_, i) => (
+                    <option key={i + 1} value={i + 1}>{i + 1}</option>
+                  ))}
+                </select>
+              </div>
+            </CardContent>
+          </Card>
+        );
+
+      case 'piste':
+        return (
+          <Card className="hover:shadow-lg transition-shadow duration-300">
+            <CardHeader>
+              <CardTitle>Composition de votre équipage</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span>Nombre de pilotes total (chaque pilote supplémentaire = +10€)</span>
+                <select
+                  className="border rounded p-2"
+                  value={pilotCount}
+                  onChange={(e) => setPilotCount(parseInt(e.target.value))}
+                >
+                  {Array.from({ length: 3 }).map((_, i) => (
+                    <option key={i + 1} value={i + 1}>{i + 1}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>Nombre d'accompagnants (non pilote) (premier offert, +5€/pers.)</span>
+                <select
+                  className="border rounded p-2"
+                  value={passengerCount}
+                  onChange={(e) => setPassengerCount(parseInt(e.target.value))}
+                >
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <option key={i} value={i}>{i}</option>
+                  ))}
+                </select>
+              </div>
+            </CardContent>
+          </Card>
+        );
+
+      case 'statique':
+        return (
+          <Card className="hover:shadow-lg transition-shadow duration-300">
+            <CardHeader>
+              <CardTitle>Composition de votre équipage</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-between">
+                <span>Nombre d'accompagnants (premier offert, +5€/pers.)</span>
+                <select
+                  className="border rounded p-2"
+                  value={passengerCount}
+                  onChange={(e) => setPassengerCount(parseInt(e.target.value))}
+                >
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <option key={i} value={i}>{i}</option>
+                  ))}
+                </select>
+              </div>
+            </CardContent>
+          </Card>
+        );
+
+      case 'nsx':
+        return (
+          <>
+            <Card className="hover:shadow-lg transition-shadow duration-300">
+              <CardHeader>
+                <CardTitle>Type de participation</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <RadioGroup
+                  value={nsxType}
+                  onValueChange={(value: 'statique' | 'piste') => setNsxType(value)}
+                  className="grid gap-4"
+                >
+                  <div className="relative">
+                    <RadioGroupItem value="statique" id="statique" className="peer sr-only" />
+                    <Label
+                      htmlFor="statique"
+                      className={cn(
+                        "flex flex-col p-4 border rounded-lg cursor-pointer",
+                        "hover:bg-gray-50 transition-all duration-300",
+                        "peer-checked:border-honda-red peer-checked:border-2",
+                        "peer-checked:bg-red-50/50 peer-checked:shadow-md"
+                      )}
+                    >
+                      <span className={cn(
+                        "font-semibold",
+                        "peer-checked:text-honda-red"
+                      )}>Statique</span>
+                      <span className="text-sm text-honda-red font-bold">
+                        {selectedDate === 'weekend' ? '45€' : '30€'}
+                      </span>
+                    </Label>
+                  </div>
+                  <div className="relative">
+                    <RadioGroupItem value="piste" id="piste" className="peer sr-only" />
+                    <Label
+                      htmlFor="piste"
+                      className={cn(
+                        "flex flex-col p-4 border rounded-lg cursor-pointer",
+                        "hover:bg-gray-50 transition-all duration-300",
+                        "peer-checked:border-honda-red peer-checked:border-2",
+                        "peer-checked:bg-red-50/50 peer-checked:shadow-md"
+                      )}
+                    >
+                      <span className={cn(
+                        "font-semibold",
+                        "peer-checked:text-honda-red"
+                      )}>Piste</span>
+                      <span className="text-sm text-honda-red font-bold">
+                        {selectedDate === 'weekend' ? '270€' : '150€'}
+                      </span>
+                    </Label>
+                  </div>
+                </RadioGroup>
+              </CardContent>
+            </Card>
+
+            {nsxType === 'statique' ? (
+              <Card className="hover:shadow-lg transition-shadow duration-300 mt-6">
+                <CardHeader>
+                  <CardTitle>Composition de votre équipage</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center justify-between">
+                    <span>Nombre d'accompagnants (premier offert, +5€/pers.)</span>
+                    <select
+                      className="border rounded p-2"
+                      value={passengerCount}
+                      onChange={(e) => setPassengerCount(parseInt(e.target.value))}
+                    >
+                      {Array.from({ length: 4 }).map((_, i) => (
+                        <option key={i} value={i}>{i}</option>
+                      ))}
+                    </select>
+                  </div>
+                </CardContent>
+              </Card>
+            ) : (
+              <Card className="hover:shadow-lg transition-shadow duration-300 mt-6">
+                <CardHeader>
+                  <CardTitle>Composition de votre équipage</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span>Nombre de pilotes total (chaque pilote supplémentaire = +10€)</span>
+                    <select
+                      className="border rounded p-2"
+                      value={pilotCount}
+                      onChange={(e) => setPilotCount(parseInt(e.target.value))}
+                    >
+                      {Array.from({ length: 3 }).map((_, i) => (
+                        <option key={i + 1} value={i + 1}>{i + 1}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>Nombre d'accompagnants (non pilote) (premier offert, +5€/pers.)</span>
+                    <select
+                      className="border rounded p-2"
+                      value={passengerCount}
+                      onChange={(e) => setPassengerCount(parseInt(e.target.value))}
+                    >
+                      {Array.from({ length: 4 }).map((_, i) => (
+                        <option key={i} value={i}>{i}</option>
+                      ))}
+                    </select>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </>
+        );
+    }
   };
 
   return (
@@ -174,7 +381,7 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
             </Card>
           </motion.div>
 
-          {/* Sélection des dates et options */}
+          {/* Sélection des dates */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -189,11 +396,11 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
               <CardContent>
                 <RadioGroup
                   value={selectedDate}
-                  onValueChange={handleDateChange}
+                  onValueChange={setSelectedDate}
                   className="grid gap-4"
                 >
                   {dateOptions.map((option) => (
-                    <div key={option.id} className="relative">
+                    <div key={option.id}>
                       <RadioGroupItem
                         value={option.id}
                         id={option.id}
@@ -201,11 +408,19 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
                       />
                       <Label
                         htmlFor={option.id}
-                        className="flex flex-col p-4 border rounded-lg cursor-pointer hover:bg-gray-50 peer-checked:border-honda-red peer-checked:bg-red-50 transition-all duration-300"
+                        className="block border rounded-lg cursor-pointer transition-all duration-300 hover:bg-gray-50 peer-checked:border-honda-red peer-checked:border-2 peer-checked:bg-red-50/50 peer-checked:shadow-md"
                       >
-                        <span className="font-semibold">{option.name}</span>
-                        <span className="text-sm text-gray-500">{option.description}</span>
-                        <span className="mt-2 font-bold text-honda-red">{option.price}€</span>
+                        <div className="p-4">
+                          <div className="flex justify-between items-center">
+                            <div className="flex flex-col">
+                              <span className="font-semibold peer-checked:text-honda-red">{option.name}</span>
+                              <span className="text-sm text-gray-500">{option.description}</span>
+                            </div>
+                            {packType !== 'nsx' && (
+                              <span className="text-honda-red font-bold text-sm ml-4">{calculateTotalPrice(option.id)}€</span>
+                            )}
+                          </div>
+                        </div>
                       </Label>
                     </div>
                   ))}
@@ -214,63 +429,23 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
             </Card>
           </motion.div>
 
-          {additionalOptions && additionalOptions.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="w-full"
-            >
-              <Card className="hover:shadow-lg transition-shadow duration-300">
-                <CardHeader>
-                  <CardTitle>Options additionnelles</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {additionalOptions.map((option, index) => (
-                      <div key={index} className="flex items-center justify-between">
-                        <span>{option.name}</span>
-                        <div className="flex items-center gap-4">
-                          <span>+{option.price}€</span>
-                          <select
-                            className="border rounded p-1"
-                            value={selectedOptions[option.name] || 0}
-                            onChange={(e) => handleOptionChange(option.name, parseInt(e.target.value))}
-                          >
-                            {Array.from({ length: option.maxQuantity + 1 }).map((_, i) => (
-                              <option key={i} value={i}>{i}</option>
-                            ))}
-                          </select>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
+          {/* Options spécifiques au pack */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="w-full"
+          >
+            {renderOptions()}
+          </motion.div>
 
-          {/* Récapitulatif et navigation */}
+          {/* Navigation */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
             className="w-full"
           >
-            <Card className="mb-8 hover:shadow-lg transition-shadow duration-300">
-              <CardHeader>
-                <CardTitle>Récapitulatif</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="font-semibold">Total</span>
-                    <span className="text-2xl font-bold text-honda-red">{totalPrice}€</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
             <div className="flex justify-between gap-4">
               <Button
                 variant="outline"

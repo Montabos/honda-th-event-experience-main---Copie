@@ -16,18 +16,7 @@ const VisitorPack = () => {
       'Accès aux food trucks',
       'Parking visiteur',
     ],
-    additionalOptions: [
-      {
-        name: 'Enfant (-12 ans)',
-        price: 5,
-        maxQuantity: 4,
-      },
-      {
-        name: 'Pack photos digital',
-        price: 15,
-        maxQuantity: 1,
-      },
-    ],
+    packType: 'visiteur' as const
   };
 
   return <PackRegistration {...packData} />;

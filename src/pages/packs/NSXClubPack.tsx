@@ -7,8 +7,8 @@ const NSXClubPack = () => {
     packDescription: 'Une expérience exclusive réservée aux propriétaires de NSX',
     packIcon: '🏁',
     prices: {
-      oneDay: 200,
-      twoDays: 350,
+      oneDay: 30,
+      twoDays: 45,
     },
     includes: [
       'Accès VIP au circuit',
@@ -17,19 +17,8 @@ const NSXClubPack = () => {
       'Photo souvenir professionnelle',
       'Cadeau exclusif Honda NSX',
     ],
-    additionalOptions: [
-      {
-        name: 'Invité VIP',
-        price: 50,
-        maxQuantity: 2,
-      },
-      {
-        name: 'Pack photos premium',
-        price: 75,
-        maxQuantity: 1,
-      },
-    ],
     isExclusive: true,
+    packType: 'nsx' as const
   };
 
   return <PackRegistration {...packData} />;
