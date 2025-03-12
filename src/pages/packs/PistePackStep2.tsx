@@ -44,12 +44,15 @@ const PistePackStep2: React.FC = () => {
   }, [selectedDate, packType, pilotCount, navigate]);
 
   // Formater la date pour l'affichage
-  const formattedDate = selectedDate ? new Date(selectedDate).toLocaleDateString('fr-FR', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  }) : '';
+  const getFormattedDate = () => {
+    if (packType === 'weekend') {
+      return "Week-end du 21 et 22 Juin 2025";
+    }
+    if (selectedDate === 'sunday') {
+      return "Dimanche 22 Juin 2025";
+    }
+    return "Samedi 21 Juin 2025";
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -100,13 +103,11 @@ const PistePackStep2: React.FC = () => {
               <CardContent className="space-y-3">
                 <div className="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
                   <h2 className="text-base font-medium">
-                    Pass {packType === 'weekend' ? 'Week-end' : '1 jour'} - Pack Piste
-                    ({pilotCount} {pilotCount > 1 ? 'pilotes' : 'pilote'}
-                    {passengerCount > 0 ? `, ${passengerCount} ${passengerCount > 1 ? 'accompagnants' : 'accompagnant'}` : ''})
+                    {packType === 'weekend' 
+                      ? `Pass Week-end - Pack Piste (${pilotCount} ${pilotCount > 1 ? 'pilotes' : 'pilote'}${passengerCount > 0 ? `, ${passengerCount} ${passengerCount > 1 ? 'accompagnants' : 'accompagnant'}` : ''})`
+                      : `Pass 1 jour - Pack Piste (${pilotCount} ${pilotCount > 1 ? 'pilotes' : 'pilote'}${passengerCount > 0 ? `, ${passengerCount} ${passengerCount > 1 ? 'accompagnants' : 'accompagnant'}` : ''})`
+                    }
                   </h2>
-                  <Badge variant="outline" className="text-[#E60012] bg-red-50 border-[#E60012] font-semibold px-4 py-1">
-                    {packType === 'weekend' ? 'Week-end' : 'Journée'}
-                  </Badge>
                 </div>
                 <div className="grid grid-cols-2 gap-3 text-sm text-gray-600">
                   <div className="flex items-center gap-2">
@@ -115,7 +116,7 @@ const PistePackStep2: React.FC = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-[#E60012]" />
-                    <span>{formattedDate}</span>
+                    <span>{getFormattedDate()}</span>
                   </div>
                 </div>
               </CardContent>
@@ -253,7 +254,8 @@ const PistePackStep2: React.FC = () => {
                   pilotCount: pilotCount,
                   passengerCount: passengerCount,
                   totalPrice: total
-                }
+                },
+                replace: true
               })}
               className="w-1/3"
             >

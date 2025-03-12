@@ -18,7 +18,7 @@ const VisitorPackStep2: React.FC = () => {
   const [discount, setDiscount] = useState(0);
   const [subtotal, setSubtotal] = useState(() => {
     // Calculer le sous-total initial
-    const basePrice = packType === 'weekend' ? 15 : 10;
+    const basePrice = packType === 'weekend' ? 20 : 12;
     return basePrice * quantity;
   });
   const [total, setTotal] = useState(() => subtotal);
@@ -42,12 +42,15 @@ const VisitorPackStep2: React.FC = () => {
   }, [selectedDate, packType, quantity, navigate]);
 
   // Formater la date pour l'affichage
-  const formattedDate = selectedDate ? new Date(selectedDate).toLocaleDateString('fr-FR', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  }) : '';
+  const getFormattedDate = () => {
+    if (packType === 'weekend') {
+      return "Week-end du 21 et 22 Juin 2025";
+    }
+    if (selectedDate.includes("Dimanche")) {
+      return "Dimanche 22 Juin 2025";
+    }
+    return "Samedi 21 Juin 2025";
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -102,12 +105,8 @@ const VisitorPackStep2: React.FC = () => {
               <CardContent className="space-y-3">
                 <div className="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
                   <h2 className="text-base font-medium">
-                    Pass {packType === 'weekend' ? 'Week-end' : '1 jour'} - Pack Visiteur
-                    ({quantity} {quantity > 1 ? 'personnes' : 'personne'})
+                    {`${quantity}x Pack Visiteur ${packType === 'weekend' ? 'Week-end' : '1 jour'}`}
                   </h2>
-                  <Badge variant="outline" className="text-[#E60012] bg-red-50 border-[#E60012] font-semibold px-4 py-1">
-                    {packType === 'weekend' ? 'Week-end' : 'Journée'}
-                  </Badge>
                 </div>
                 <div className="grid grid-cols-2 gap-3 text-sm text-gray-600">
                   <div className="flex items-center gap-2">
@@ -116,7 +115,7 @@ const VisitorPackStep2: React.FC = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-[#E60012]" />
-                    <span>{formattedDate}</span>
+                    <span>{getFormattedDate()}</span>
                   </div>
                 </div>
               </CardContent>
@@ -237,11 +236,12 @@ const VisitorPackStep2: React.FC = () => {
                 variant="outline"
                 onClick={() => navigate('/pack/visiteur', {
                   state: {
-                    selectedDate: selectedDate,
+                    selectedDate: packType === 'weekend' ? 'weekend' : selectedDate.includes("Dimanche") ? 'sunday' : 'saturday',
                     packType: packType,
                     visitorCount: quantity,
                     totalPrice: total
-                  }
+                  },
+                  replace: true
                 })}
                 className="w-1/3"
               >

@@ -25,6 +25,18 @@ const StaticPackStep2 = () => {
     setIsPromoValid(true);
   };
 
+  // Formater la date pour l'affichage
+  const getFormattedDate = () => {
+    if (packType === 'weekend') {
+      return "Week-end du 21 et 22 Juin 2025";
+    }
+    const day = selectedDate.getDay();
+    if (day === 0) { // 0 represents Sunday
+      return "Dimanche 22 Juin 2025";
+    }
+    return "Samedi 21 Juin 2025";
+  };
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
@@ -78,11 +90,11 @@ const StaticPackStep2 = () => {
               <CardContent className="space-y-3">
                 <div className="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
                   <h2 className="text-base font-medium">
-                    Pass {packType === '1-day' ? '1 jour' : 'week-end'} - Pack Statique
+                    {packType === 'weekend' 
+                      ? `Pass Week-end - Pack Statique${accompanying > 0 ? ` (${accompanying} ${accompanying > 1 ? 'accompagnants' : 'accompagnant'})` : ''}`
+                      : `Pass 1 jour - Pack Statique${accompanying > 0 ? ` (${accompanying} ${accompanying > 1 ? 'accompagnants' : 'accompagnant'})` : ''}`
+                    }
                   </h2>
-                  <Badge variant="outline" className="text-[#E60012] bg-red-50 border-[#E60012] font-semibold px-4 py-1">
-                    {packType === '1-day' ? 'Journée' : 'Week-end'}
-                  </Badge>
                 </div>
                 <div className="grid grid-cols-2 gap-3 text-sm text-gray-600">
                   <div className="flex items-center gap-2">
@@ -91,7 +103,7 @@ const StaticPackStep2 = () => {
                   </div>
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-[#E60012]" />
-                    <span>{selectedDate.toLocaleDateString()}</span>
+                    <span>{getFormattedDate()}</span>
                   </div>
                 </div>
               </CardContent>
@@ -249,7 +261,15 @@ const StaticPackStep2 = () => {
             <div className="flex justify-between gap-4">
               <Button
                 variant="outline"
-                onClick={() => window.history.back()}
+                onClick={() => navigate('/pack/statique', {
+                  state: {
+                    selectedDate: selectedDate,
+                    packType: packType,
+                    passengerCount: accompanying,
+                    totalPrice: total
+                  },
+                  replace: true
+                })}
                 className="w-1/3"
               >
                 Retour

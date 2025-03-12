@@ -89,25 +89,42 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
   const location = useLocation();
   const savedState = location.state || {};
 
-  // Initialiser les états avec les données sauvegardées si elles existent
+  // Fonction pour charger les données sauvegardées
+  const loadSavedData = () => {
+    try {
+      const savedData = localStorage.getItem(`pack_${packType}_data`);
+      return savedData ? JSON.parse(savedData) : null;
+    } catch (error) {
+      console.error('Error loading saved data:', error);
+      return null;
+    }
+  };
+
+  // Fonction pour sauvegarder les données
+  const saveData = (data: any) => {
+    try {
+      localStorage.setItem(`pack_${packType}_data`, JSON.stringify(data));
+    } catch (error) {
+      console.error('Error saving data:', error);
+    }
+  };
+
+  // Initialiser les états avec les données sauvegardées
+  const savedData = loadSavedData();
+  const initialState = savedData || savedState;
+
   const [selectedDate, setSelectedDate] = useState<string>(() => {
-    if (savedState.selectedDate) {
-      // Si nous avons un packType sauvegardé, l'utiliser directement
-      if (savedState.packType === 'weekend') {
-        return 'weekend';
-      }
-      // Sinon, déterminer le jour en fonction de la date
-      const date = new Date(savedState.selectedDate);
-      const day = date.getDay();
-      return day === 0 ? 'sunday' : 'saturday';
+    if (initialState.selectedDate) {
+      return initialState.selectedDate;
     }
     return '';
   });
-  const [totalPrice, setTotalPrice] = useState<number>(savedState.totalPrice || 0);
-  const [visitorCount, setVisitorCount] = useState(savedState.visitorCount || 1);
-  const [pilotCount, setPilotCount] = useState(savedState.pilotCount || 1);
-  const [passengerCount, setPassengerCount] = useState(savedState.passengerCount || 0);
-  const [nsxType, setNsxType] = useState<'statique' | 'piste'>(savedState.nsxType || 'statique');
+
+  const [totalPrice, setTotalPrice] = useState<number>(initialState.totalPrice || 0);
+  const [visitorCount, setVisitorCount] = useState(initialState.visitorCount || 1);
+  const [pilotCount, setPilotCount] = useState(initialState.pilotCount || 1);
+  const [passengerCount, setPassengerCount] = useState(initialState.passengerCount || 0);
+  const [nsxType, setNsxType] = useState<'statique' | 'piste'>(initialState.nsxType || 'statique');
   const [shouldScrollToRegistration, setShouldScrollToRegistration] = useState(false);
 
   const calculateTotalPrice = (dateId?: string) => {
@@ -160,6 +177,30 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
       setShouldScrollToRegistration(false);
     }
   }, [shouldScrollToRegistration]);
+
+  // Sauvegarder les données quand elles changent
+  useEffect(() => {
+    if (selectedDate) {
+      saveData({
+        selectedDate,
+        totalPrice,
+        visitorCount,
+        pilotCount,
+        passengerCount,
+        nsxType,
+        packType
+      });
+    }
+  }, [selectedDate, totalPrice, visitorCount, pilotCount, passengerCount, nsxType, packType]);
+
+  // Nettoyer le localStorage quand on quitte le composant
+  useEffect(() => {
+    return () => {
+      if (!location.pathname.includes('/step2')) {
+        localStorage.removeItem(`pack_${packType}_data`);
+      }
+    };
+  }, [location.pathname, packType]);
 
   const renderOptions = () => {
     switch (packType) {
@@ -363,45 +404,51 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
     if (packType === 'visiteur') {
       navigate('/pack/visiteur/step2', {
         state: {
-          selectedDate: new Date(selectedDate === 'weekend' ? dateOptions[2].name : dateOptions[0].name),
+          selectedDate: selectedDate === 'weekend' ? dateOptions[2].name : selectedDate === 'sunday' ? dateOptions[1].name : dateOptions[0].name,
           packType: selectedDate === 'weekend' ? 'weekend' : '1-day',
-          quantity: visitorCount
-        }
+          quantity: visitorCount,
+          totalPrice: totalPrice
+        },
+        replace: true
       });
     } else if (packType === 'statique') {
       navigate('/pack/statique/step2', {
         state: {
-          selectedDate: new Date(selectedDate === 'weekend' ? dateOptions[2].name : dateOptions[0].name),
+          selectedDate: selectedDate === 'weekend' ? dateOptions[2].name : selectedDate === 'sunday' ? dateOptions[1].name : dateOptions[0].name,
           packType: selectedDate === 'weekend' ? 'weekend' : '1-day',
-          accompanying: passengerCount
-        }
+          accompanying: passengerCount,
+          totalPrice: totalPrice
+        },
+        replace: true
       });
     } else if (packType === 'piste') {
       navigate('/pack/piste/step2', {
         state: {
-          selectedDate: new Date(selectedDate === 'weekend' ? dateOptions[2].name : dateOptions[0].name),
+          selectedDate: selectedDate === 'weekend' ? dateOptions[2].name : selectedDate === 'sunday' ? dateOptions[1].name : dateOptions[0].name,
           packType: selectedDate === 'weekend' ? 'weekend' : '1-day',
           pilotCount: pilotCount,
-          passengerCount: passengerCount
-        }
+          passengerCount: passengerCount,
+          totalPrice: totalPrice
+        },
+        replace: true
       });
     } else if (packType === 'nsx') {
       navigate('/pack/nsx/step2', {
         state: {
-          selectedDate: new Date(selectedDate === 'weekend' ? dateOptions[2].name : dateOptions[0].name),
+          selectedDate: selectedDate === 'weekend' ? dateOptions[2].name : selectedDate === 'sunday' ? dateOptions[1].name : dateOptions[0].name,
           packType: selectedDate === 'weekend' ? 'weekend' : '1-day',
           pilotCount: pilotCount,
           passengerCount: passengerCount,
-          nsxType: nsxType
-        }
+          nsxType: nsxType,
+          totalPrice: totalPrice
+        },
+        replace: true
       });
     }
-    // Ajoutez ici la logique pour les autres types de packs si nécessaire
   };
 
   const handleReturn = () => {
-    navigate('/');
-    setShouldScrollToRegistration(true);
+    navigate('/#registration', { replace: true });
   };
 
   return (
@@ -554,7 +601,7 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
             <div className="flex justify-between gap-4">
               <Button
                 variant="outline"
-                onClick={() => navigate('/#registration')}
+                onClick={handleReturn}
                 className="w-1/3"
               >
                 Retour
