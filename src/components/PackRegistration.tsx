@@ -7,6 +7,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useNavigate } from 'react-router-dom';
 
 interface PackOption {
   id: string;
@@ -60,6 +61,7 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
   isExclusive,
   packType
 }) => {
+  const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [visitorCount, setVisitorCount] = useState(1);
@@ -306,6 +308,46 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
     }
   };
 
+  const handleNextStep = () => {
+    if (packType === 'visiteur') {
+      navigate('/pack/visiteur/step2', {
+        state: {
+          selectedDate: new Date(selectedDate === 'weekend' ? dateOptions[2].name : dateOptions[0].name),
+          packType: selectedDate === 'weekend' ? 'weekend' : '1-day',
+          quantity: visitorCount
+        }
+      });
+    } else if (packType === 'statique') {
+      navigate('/pack/statique/step2', {
+        state: {
+          selectedDate: new Date(selectedDate === 'weekend' ? dateOptions[2].name : dateOptions[0].name),
+          packType: selectedDate === 'weekend' ? 'weekend' : '1-day',
+          accompanying: passengerCount
+        }
+      });
+    } else if (packType === 'piste') {
+      navigate('/pack/piste/step2', {
+        state: {
+          selectedDate: new Date(selectedDate === 'weekend' ? dateOptions[2].name : dateOptions[0].name),
+          packType: selectedDate === 'weekend' ? 'weekend' : '1-day',
+          pilotCount: pilotCount,
+          passengerCount: passengerCount
+        }
+      });
+    } else if (packType === 'nsx') {
+      navigate('/pack/nsx/step2', {
+        state: {
+          selectedDate: new Date(selectedDate === 'weekend' ? dateOptions[2].name : dateOptions[0].name),
+          packType: selectedDate === 'weekend' ? 'weekend' : '1-day',
+          pilotCount: pilotCount,
+          passengerCount: passengerCount,
+          nsxType: nsxType
+        }
+      });
+    }
+    // Ajoutez ici la logique pour les autres types de packs si nécessaire
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -456,7 +498,7 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
               </Button>
               <Button
                 disabled={!selectedDate}
-                onClick={() => {/* Handle next step */}}
+                onClick={handleNextStep}
                 className="w-2/3 bg-honda-red hover:bg-honda-red/90 text-white"
               >
                 Suivant
