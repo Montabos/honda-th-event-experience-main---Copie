@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -8,21 +8,46 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { CreditCard, Calendar, Mail, Check, Gift, Receipt, ChevronLeft, ChevronRight, Info } from 'lucide-react';
 
-const VisitorPackStep2 = () => {
+const VisitorPackStep2: React.FC = () => {
   const navigate = useNavigate();
-  const [packType, setPackType] = useState('1-day');
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [promoCode, setPromoCode] = useState('');
-  const [isPromoValid, setIsPromoValid] = useState(false);
-  const [quantity, setQuantity] = useState(1);
-  const [subtotal, setSubtotal] = useState(0);
-  const [discount, setDiscount] = useState(0);
-  const [total, setTotal] = useState(0);
+  const location = useLocation();
+  const { selectedDate, packType, quantity } = location.state || {};
 
-  const handlePromoCode = () => {
-    // Implement promo code validation logic here
-    setIsPromoValid(true);
+  // Initialiser les états avec les données de l'étape précédente
+  const [promoCode, setPromoCode] = useState('');
+  const [discount, setDiscount] = useState(0);
+  const [subtotal, setSubtotal] = useState(() => {
+    // Calculer le sous-total initial
+    const basePrice = packType === 'weekend' ? 15 : 10;
+    return basePrice * quantity;
+  });
+  const [total, setTotal] = useState(() => subtotal);
+
+  // Mettre à jour le total quand le sous-total ou la remise change
+  useEffect(() => {
+    setTotal(subtotal - discount);
+  }, [subtotal, discount]);
+
+  const handlePromoCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPromoCode(e.target.value);
+    // Logic to calculate discount based on promo code
+    setDiscount(5); // Example discount
   };
+
+  // Si nous n'avons pas les données nécessaires, rediriger vers la première étape
+  useEffect(() => {
+    if (!selectedDate || !packType || !quantity) {
+      navigate('/pack/visiteur');
+    }
+  }, [selectedDate, packType, quantity, navigate]);
+
+  // Formater la date pour l'affichage
+  const formattedDate = selectedDate ? new Date(selectedDate).toLocaleDateString('fr-FR', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  }) : '';
 
   return (
     <div className="min-h-screen bg-white">
@@ -77,20 +102,21 @@ const VisitorPackStep2 = () => {
               <CardContent className="space-y-3">
                 <div className="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
                   <h2 className="text-base font-medium">
-                    Pass {packType === '1-day' ? '1 jour' : 'week-end'} - Pack Visiteur
+                    Pass {packType === 'weekend' ? 'Week-end' : '1 jour'} - Pack Visiteur
+                    ({quantity} {quantity > 1 ? 'personnes' : 'personne'})
                   </h2>
-                  <Badge variant="outline" className="text-[#E60012] text-sm">
-                    {packType === '1-day' ? 'Journée' : 'Week-end'}
+                  <Badge variant="outline" className="text-[#E60012] bg-red-50 border-[#E60012] font-semibold px-4 py-1">
+                    {packType === 'weekend' ? 'Week-end' : 'Journée'}
                   </Badge>
                 </div>
                 <div className="grid grid-cols-2 gap-3 text-sm text-gray-600">
                   <div className="flex items-center gap-2">
                     <Info className="h-4 w-4 text-[#E60012]" />
-                    <span>Circuit de Morney, Bonnat</span>
+                    <span>Circuit de Morney</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-[#E60012]" />
-                    <span>{selectedDate.toLocaleDateString()}</span>
+                    <span>{formattedDate}</span>
                   </div>
                 </div>
               </CardContent>
@@ -140,15 +166,11 @@ const VisitorPackStep2 = () => {
                     <Input
                       placeholder="Entrez votre code"
                       value={promoCode}
-                      onChange={(e) => setPromoCode(e.target.value)}
-                      className={`text-sm ${isPromoValid ? 'border-green-500' : ''}`}
+                      onChange={handlePromoCodeChange}
+                      className={`text-sm`}
                     />
-                    {isPromoValid && (
-                      <Check className="absolute right-2 top-1/2 transform -translate-y-1/2 h-5 w-5 text-green-500" />
-                    )}
                   </div>
                   <Button 
-                    onClick={handlePromoCode}
                     className="bg-[#E60012] hover:bg-[#E60012]/90 text-white min-w-[120px] text-sm"
                   >
                     Appliquer
@@ -167,14 +189,14 @@ const VisitorPackStep2 = () => {
             <Card className="border border-gray-200">
               <CardHeader className="pb-3">
                 <CardTitle className="text-lg flex items-center gap-2">
-                  <Receipt className="h-5 w-5 text-[#E60012]" />
+                  <Info className="h-5 w-5 text-[#E60012]" />
                   Récapitulatif de la Commande
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg text-sm">
-                    <span>{quantity} x Pass {packType === '1-day' ? '1 jour' : 'week-end'} - Pack Visiteur</span>
+                    <span>{quantity} x Pack Visiteur {packType === 'weekend' ? 'Week-end' : '1 jour'}</span>
                     <span className="font-medium">{subtotal}€</span>
                   </div>
                   {discount > 0 && (
@@ -213,7 +235,14 @@ const VisitorPackStep2 = () => {
             <div className="flex justify-between gap-4">
               <Button
                 variant="outline"
-                onClick={() => window.history.back()}
+                onClick={() => navigate('/pack/visiteur', {
+                  state: {
+                    selectedDate: selectedDate,
+                    packType: packType,
+                    visitorCount: quantity,
+                    totalPrice: total
+                  }
+                })}
                 className="w-1/3"
               >
                 Retour

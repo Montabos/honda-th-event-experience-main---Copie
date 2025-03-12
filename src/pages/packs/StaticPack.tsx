@@ -7,8 +7,8 @@ const StaticPack = () => {
     packDescription: 'Exposez votre Honda et partagez votre passion',
     packIcon: '🏁',
     prices: {
-      oneDay: 30,
-      twoDays: 45,
+      oneDay: 20,
+      twoDays: 30,
     },
     includes: [
       'Emplacement d\'exposition privilégié',

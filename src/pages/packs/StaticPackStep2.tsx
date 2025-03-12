@@ -80,7 +80,7 @@ const StaticPackStep2 = () => {
                   <h2 className="text-base font-medium">
                     Pass {packType === '1-day' ? '1 jour' : 'week-end'} - Pack Statique
                   </h2>
-                  <Badge variant="outline" className="text-[#E60012] text-sm">
+                  <Badge variant="outline" className="text-[#E60012] bg-red-50 border-[#E60012] font-semibold px-4 py-1">
                     {packType === '1-day' ? 'Journée' : 'Week-end'}
                   </Badge>
                 </div>

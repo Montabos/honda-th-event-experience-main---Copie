@@ -7,8 +7,8 @@ const VisitorPack = () => {
     packDescription: 'Découvrez l\'univers Honda et profitez des animations',
     packIcon: '🏁',
     prices: {
-      oneDay: 15,
-      twoDays: 25,
+      oneDay: 12,
+      twoDays: 20,
     },
     includes: [
       'Accès au site',

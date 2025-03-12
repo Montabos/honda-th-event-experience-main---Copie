@@ -7,7 +7,8 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Check } from 'lucide-react';
 
 interface PackOption {
   id: string;
@@ -30,23 +31,46 @@ interface PackRegistrationProps {
   packType: 'visiteur' | 'piste' | 'statique' | 'nsx';
 }
 
+const packPrices = {
+  piste: {
+    saturday: 150,
+    sunday: 150,
+    weekend: 270
+  },
+  nsx: {
+    saturday: 30,
+    sunday: 30,
+    weekend: 45
+  },
+  statique: {
+    saturday: 20,
+    sunday: 20,
+    weekend: 30
+  },
+  visiteur: {
+    saturday: 12,
+    sunday: 12,
+    weekend: 20
+  }
+};
+
 const dateOptions: PackOption[] = [
   {
     id: 'saturday',
     name: 'Samedi 21 Juin',
-    price: 20,
+    price: 0,
     description: 'Accès libre au village et aux animations'
   },
   {
     id: 'sunday',
     name: 'Dimanche 22 Juin',
-    price: 20,
+    price: 0,
     description: 'Accès libre au village et aux animations'
   },
   {
     id: 'weekend',
     name: 'Pass Week-End',
-    price: 45,
+    price: 0,
     description: 'Accès complet sur les deux jours'
   }
 ];
@@ -60,14 +84,31 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
   isPopular,
   isExclusive,
   packType
-}) => {
+}): JSX.Element => {
   const navigate = useNavigate();
-  const [selectedDate, setSelectedDate] = useState<string>('');
-  const [totalPrice, setTotalPrice] = useState<number>(0);
-  const [visitorCount, setVisitorCount] = useState(1);
-  const [pilotCount, setPilotCount] = useState(1);
-  const [passengerCount, setPassengerCount] = useState(0);
-  const [nsxType, setNsxType] = useState<'statique' | 'piste'>('statique');
+  const location = useLocation();
+  const savedState = location.state || {};
+
+  // Initialiser les états avec les données sauvegardées si elles existent
+  const [selectedDate, setSelectedDate] = useState<string>(() => {
+    if (savedState.selectedDate) {
+      // Si nous avons un packType sauvegardé, l'utiliser directement
+      if (savedState.packType === 'weekend') {
+        return 'weekend';
+      }
+      // Sinon, déterminer le jour en fonction de la date
+      const date = new Date(savedState.selectedDate);
+      const day = date.getDay();
+      return day === 0 ? 'sunday' : 'saturday';
+    }
+    return '';
+  });
+  const [totalPrice, setTotalPrice] = useState<number>(savedState.totalPrice || 0);
+  const [visitorCount, setVisitorCount] = useState(savedState.visitorCount || 1);
+  const [pilotCount, setPilotCount] = useState(savedState.pilotCount || 1);
+  const [passengerCount, setPassengerCount] = useState(savedState.passengerCount || 0);
+  const [nsxType, setNsxType] = useState<'statique' | 'piste'>(savedState.nsxType || 'statique');
+  const [shouldScrollToRegistration, setShouldScrollToRegistration] = useState(false);
 
   const calculateTotalPrice = (dateId?: string) => {
     let total = 0;
@@ -109,6 +150,16 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    if (shouldScrollToRegistration) {
+      const registrationSection = document.getElementById('registration');
+      if (registrationSection) {
+        registrationSection.scrollIntoView({ behavior: 'smooth' });
+      }
+      setShouldScrollToRegistration(false);
+    }
+  }, [shouldScrollToRegistration]);
 
   const renderOptions = () => {
     switch (packType) {
@@ -222,7 +273,7 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
                         "peer-checked:text-honda-red"
                       )}>Statique</span>
                       <span className="text-sm text-honda-red font-bold">
-                        {selectedDate === 'weekend' ? '45€' : '30€'}
+                        {selectedDate === 'weekend' ? packPrices.nsx.weekend : packPrices.nsx.saturday}€
                       </span>
                     </Label>
                   </div>
@@ -242,7 +293,7 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
                         "peer-checked:text-honda-red"
                       )}>Piste</span>
                       <span className="text-sm text-honda-red font-bold">
-                        {selectedDate === 'weekend' ? '270€' : '150€'}
+                        {selectedDate === 'weekend' ? packPrices.piste.weekend : packPrices.piste.saturday}€
                       </span>
                     </Label>
                   </div>
@@ -348,6 +399,11 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
     // Ajoutez ici la logique pour les autres types de packs si nécessaire
   };
 
+  const handleReturn = () => {
+    navigate('/');
+    setShouldScrollToRegistration(true);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -450,17 +506,24 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
                       />
                       <Label
                         htmlFor={option.id}
-                        className="block border rounded-lg cursor-pointer transition-all duration-300 hover:bg-gray-50 peer-checked:border-honda-red peer-checked:border-2 peer-checked:bg-red-50/50 peer-checked:shadow-md"
+                        className={`
+                          block border rounded-lg cursor-pointer transition-all duration-200
+                          hover:bg-gray-50
+                          ${selectedDate === option.id ? 'border-[#E60012] border-2 bg-red-50/50 shadow-md' : 'border-gray-200'}
+                        `}
                       >
                         <div className="p-4">
                           <div className="flex justify-between items-center">
                             <div className="flex flex-col">
-                              <span className="font-semibold peer-checked:text-honda-red">{option.name}</span>
+                              <span className={`
+                                font-semibold
+                                ${selectedDate === option.id ? 'text-[#E60012]' : 'text-gray-900'}
+                              `}>{option.name}</span>
                               <span className="text-sm text-gray-500">{option.description}</span>
                             </div>
-                            {packType !== 'nsx' && (
-                              <span className="text-honda-red font-bold text-sm ml-4">{calculateTotalPrice(option.id)}€</span>
-                            )}
+                            <span className="text-[#E60012] font-bold text-sm ml-4">
+                              {packPrices[packType][option.id]}€
+                            </span>
                           </div>
                         </div>
                       </Label>
@@ -491,7 +554,7 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
             <div className="flex justify-between gap-4">
               <Button
                 variant="outline"
-                onClick={() => window.history.back()}
+                onClick={() => navigate('/#registration')}
                 className="w-1/3"
               >
                 Retour

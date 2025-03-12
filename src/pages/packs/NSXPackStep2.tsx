@@ -79,7 +79,7 @@ const NSXPackStep2: React.FC = () => {
                   <h2 className="text-base font-medium">
                     Pass {selectedDate === 'weekend' ? 'Week-End' : '1 Jour'} - Pack NSX {packType}
                   </h2>
-                  <Badge variant="outline" className="text-[#E60012] text-sm">
+                  <Badge variant="outline" className="text-[#E60012] bg-red-50 border-[#E60012] font-semibold px-4 py-1">
                     {selectedDate === 'weekend' ? 'Week-End' : '1 Jour'}
                   </Badge>
                 </div>
