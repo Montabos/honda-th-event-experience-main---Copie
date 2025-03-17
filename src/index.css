@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 13%; /* Updated darker foreground for readability */
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 13%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 13%;
+
+    --primary: 355 100% 45%; /* Updated to match Honda red */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 0 0% 13%;
+
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 0 0% 40%; /* Updated for better contrast */
+
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 0 0% 13%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 355 100% 45%; /* Updated to match Honda red */
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 6%; /* Updated to match Honda dark */
+    --foreground: 0 0% 98%;
+
+    --card: 0 0% 6%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 355 100% 45%; /* Updated to match Honda red */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 12%; /* Updated to be darker for better contrast */
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 80%; /* Improved contrast from 70% to 80% */
+
+    --accent: 0 0% 12%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 12%;
+    --input: 0 0% 12%;
+    --ring: 355 100% 45%; /* Updated to match Honda red */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans overflow-x-hidden;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    @apply overflow-x-hidden;
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    @apply bg-white/10 backdrop-blur-md border border-white/20 shadow-lg;
+  }
+  
+  .hover-scale {
+    @apply transition-transform duration-300 hover:scale-[1.03];
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-shadow-sm {
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  }
+  
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+  
+  .text-shadow-lg {
+    text-shadow: 0 4px 8px rgba(0,0,0,0.5);
+  }
+  
+  /* Added new utility classes for better text readability */
+  .text-readable {
+    @apply text-honda-text leading-relaxed tracking-wide;
+  }
+  
+  .text-readable-muted {
+    @apply text-honda-textMuted leading-relaxed tracking-wide;
+  }
+  
+  /* New utility class for text on gray backgrounds */
+  .text-on-gray {
+    @apply text-black;
+  }
+  
+  /* New utility class for text on light backgrounds */
+  .text-on-light {
+    @apply text-black leading-relaxed;
+  }
+}
+
+/* Custom animations */
+.staggered-fade-in > * {
+  opacity: 0;
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+.staggered-fade-in > *:nth-child(1) { animation-delay: 0.1s; }
+.staggered-fade-in > *:nth-child(2) { animation-delay: 0.2s; }
+.staggered-fade-in > *:nth-child(3) { animation-delay: 0.3s; }
+.staggered-fade-in > *:nth-child(4) { animation-delay: 0.4s; }
+.staggered-fade-in > *:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Special link hover effect */
+.link-hover-effect {
+  @apply relative inline-block;
+}
+
+.link-hover-effect::after {
+  content: '';
+  @apply absolute bottom-0 left-0 w-0 h-0.5 bg-honda-red transition-all duration-300 ease-in-out;
+}
+
+.link-hover-effect:hover::after {
+  @apply w-full;
+}
+
+/* Timeline styles */
+.timeline {
+  @apply relative border-l-2 border-honda-red pl-6 ml-4;
+}
+
+.timeline-item {
+  @apply relative mb-8 pb-2;
+}
+
+.timeline-item::before {
+  content: '';
+  @apply absolute w-4 h-4 bg-honda-red rounded-full -left-[1.95rem] border-4 border-white;
+}
+
+/* Banner image transition */
+.banner-img {
+  @apply opacity-0 transition-opacity duration-1000;
+}
+
+.banner-img.active {
+  @apply opacity-100;
+}
