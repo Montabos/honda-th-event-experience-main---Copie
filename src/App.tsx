@@ -13,6 +13,7 @@ import VisitorPackStep2 from "./pages/packs/VisitorPackStep2";
 import StaticPackStep2 from "./pages/packs/StaticPackStep2";
 import PistePackStep2 from "./pages/packs/PistePackStep2";
 import NSXPackStep2 from "./pages/packs/NSXPackStep2";
+import Checkout from "./pages/Checkout";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ function App() {
             <Route path="/pack/statique/step2" element={<StaticPackStep2 />} />
             <Route path="/pack/piste/step2" element={<PistePackStep2 />} />
             <Route path="/pack/nsx/step2" element={<NSXPackStep2 />} />
+            <Route path="/checkout" element={<Checkout />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

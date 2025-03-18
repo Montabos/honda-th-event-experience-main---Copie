@@ -307,7 +307,15 @@ const PistePackStep2 = () => {
                 Retour
               </Button>
               <Button
-                onClick={() => navigate('/checkout')}
+                onClick={() => navigate('/checkout', {
+                  state: {
+                    selectedDate,
+                    packType,
+                    pilotCount,
+                    passengerCount,
+                    totalPrice: total
+                  }
+                })}
                 className="w-2/3 bg-[#E60012] hover:bg-[#E60012]/90 text-white gap-2 text-sm"
               >
                 Continuer <ChevronRight className="h-4 w-4" />
