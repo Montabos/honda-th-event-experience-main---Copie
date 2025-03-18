@@ -21,6 +21,10 @@
     "noImplicitAny": false,
     "noFallthroughCasesInSwitch": false,
 
+    /* CommonJS support */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]

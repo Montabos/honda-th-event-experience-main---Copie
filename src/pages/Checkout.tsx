@@ -16,22 +16,17 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { sendConfirmationEmail } from '@/services/emailService';
 
 const Checkout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedDate, packType, pilotCount, passengerCount, nsxType, totalPrice, accompanying, quantity } = location.state || {};
 
-  const getStorageKey = () => {
-    const date = selectedDate || 'weekend';
-    const type = getPackType();
-    return `checkout_form_data_${type}_${date}`.toLowerCase().replace(/\s+/g, '_');
-  };
-
   // Fonction pour charger les données sauvegardées
   const loadSavedFormData = () => {
     try {
-      const savedData = localStorage.getItem(getStorageKey());
+      const savedData = localStorage.getItem('checkout_form_data');
       return savedData ? JSON.parse(savedData) : null;
     } catch (error) {
       console.error('Error loading saved form data:', error);
@@ -59,7 +54,7 @@ const Checkout = () => {
 
   // Sauvegarder les données du formulaire dans le localStorage quand elles changent
   useEffect(() => {
-    localStorage.setItem(getStorageKey(), JSON.stringify(formData));
+    localStorage.setItem('checkout_form_data', JSON.stringify(formData));
   }, [formData]);
 
   // Fonction pour vérifier si tous les champs sont remplis
@@ -90,11 +85,40 @@ const Checkout = () => {
   };
 
   // Gestionnaire de soumission du formulaire
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Logique de validation et de soumission à implémenter
-    localStorage.removeItem(getStorageKey());
-    console.log('Form submitted:', formData);
+    
+    try {
+      // Simuler le processus de paiement
+      // Dans un environnement de production, vous devriez intégrer un vrai système de paiement ici
+      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulation d'un délai de traitement
+
+      // Préparer les données pour l'email
+      const emailData = {
+        to_name: formData.firstName,
+        to_email: formData.email,
+        pack_type: getPackType(),
+        date: getFormattedDate(),
+        total_price: totalPrice,
+        pilot_count: pilotCount,
+        passenger_count: passengerCount,
+        accompanying_count: getAccompanyingCount(),
+        nsx_type: nsxType,
+        quantity: quantity
+      };
+
+      // Envoyer l'email de confirmation
+      await sendConfirmationEmail(emailData);
+
+      // Nettoyer le localStorage
+      localStorage.removeItem('checkout_form_data');
+      
+      // Rediriger vers une page de confirmation
+      navigate('/confirmation');
+    } catch (error) {
+      console.error('Error during form submission:', error);
+      // Gérer l'erreur (afficher un message à l'utilisateur, etc.)
+    }
   };
 
   // Formater la date pour l'affichage
@@ -276,7 +300,7 @@ const Checkout = () => {
                     value={formData.country}
                     onValueChange={(value) => setFormData(prev => ({ ...prev, country: value }))}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger id="country">
                       <SelectValue placeholder="Sélectionnez un pays" />
                     </SelectTrigger>
                     <SelectContent>
@@ -426,26 +450,30 @@ const Checkout = () => {
               >
                 Retour
               </Button>
-              <TooltipProvider delayDuration={0}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <div className="w-2/3 relative">
+              <div className="w-2/3 relative">
+                <TooltipProvider delayDuration={0}>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
                       <Button
                         type="submit"
                         disabled={!isFormValid()}
                         className="w-full bg-[#E60012] hover:bg-[#E60012]/90 text-white gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                        onClick={() => {
+                          console.log('Button clicked');
+                          console.log('Form valid:', isFormValid());
+                        }}
                       >
                         Confirmer et payer <ChevronRight className="h-4 w-4" />
                       </Button>
-                    </div>
-                  </TooltipTrigger>
-                  {!isFormValid() && (
-                    <TooltipContent side="top" className="bg-black text-white">
-                      <p>Veuillez remplir tous les champs</p>
-                    </TooltipContent>
-                  )}
-                </Tooltip>
-              </TooltipProvider>
+                    </TooltipTrigger>
+                    {!isFormValid() && (
+                      <TooltipContent side="top" className="bg-black text-white">
+                        <p>Veuillez remplir tous les champs</p>
+                      </TooltipContent>
+                    )}
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
             </div>
           </motion.div>
         </form>
