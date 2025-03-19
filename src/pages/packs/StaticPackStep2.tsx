@@ -57,16 +57,14 @@ const StaticPackStep2 = () => {
     <div className="min-h-screen bg-white">
       {/* Header */}
       <header className="bg-black text-white py-4">
-        <div className="container mx-auto px-4 flex justify-between items-center">
-          <img src="/logo.png" alt="Honda Logo" className="h-8" />
-          <nav className="hidden md:flex space-x-8">
-            <a href="/" className="hover:text-[#E60012] transition-colors text-sm">Accueil</a>
-            <a href="/packs" className="hover:text-[#E60012] transition-colors text-sm">Packs</a>
-            <a href="/contact" className="hover:text-[#E60012] transition-colors text-sm">Contact</a>
-          </nav>
-          <Button variant="outline" className="text-white border-white hover:bg-white hover:text-black text-sm">
-            Connexion
-          </Button>
+        <div className="container mx-auto px-4 flex justify-center items-center">
+          <div className="hidden md:block mr-48 text-white font-medium text-sm">Circuit de Mornay</div>
+          <div className="flex items-center">
+            <h1 className={`text-xl md:text-2xl font-bold transition-all duration-300 text-white`}>
+              <span className="font-light">TH</span> <span className="text-honda-red">EXCLUSIVE</span> <span className="font-display">HONDA</span>
+            </h1>
+            <div className="hidden md:block ml-48 text-white font-medium text-sm">21-22 JUIN 2025</div>
+          </div>
         </div>
       </header>
 
