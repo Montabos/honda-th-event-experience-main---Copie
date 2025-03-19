@@ -251,7 +251,7 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
-                <span>Nombre de pilotes total (chaque pilote supplémentaire = +10€)</span>
+                <span>Nombre de pilotes total (1er offert, puis 10€/pilote supplémentaire)</span>
                 <select
                   className="border rounded p-2"
                   value={pilotCount}
@@ -263,7 +263,7 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
                 </select>
               </div>
               <div className="flex items-center justify-between">
-                <span>Nombre d'accompagnants (non pilote) (premier offert, +5€/pers.)</span>
+                <span>Nombre d'accompagnants (non pilote) (1er offert, puis 5€/accompagnant supplémentaire)</span>
                 <select
                   className="border rounded p-2"
                   value={passengerCount}
@@ -286,7 +286,7 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
             </CardHeader>
             <CardContent>
               <div className="flex items-center justify-between">
-                <span>Nombre d'accompagnants (premier offert, +5€/pers.)</span>
+                <span>Nombre d'accompagnants (1er offert, puis 5€/pers. supplémentaire)</span>
                 <select
                   className="border rounded p-2"
                   value={passengerCount}
@@ -365,7 +365,7 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center justify-between">
-                    <span>Nombre d'accompagnants (premier offert, +5€/pers.)</span>
+                    <span>Nombre d'accompagnants (1er offert, puis 5€/pers. supplémentaire)</span>
                     <select
                       className="border rounded p-2"
                       value={passengerCount}
@@ -385,7 +385,7 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span>Nombre de pilotes total (chaque pilote supplémentaire = +10€)</span>
+                    <span>Nombre de pilotes total (1er offert, puis 10€/pilote supplémentaire)</span>
                     <select
                       className="border rounded p-2"
                       value={pilotCount}
@@ -397,7 +397,7 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
                     </select>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span>Nombre d'accompagnants (non pilote) (premier offert, +5€/pers.)</span>
+                    <span>Nombre d'accompagnants (non pilote) (1er offert, puis 5€/pers. supplémentaire)</span>
                     <select
                       className="border rounded p-2"
                       value={passengerCount}
@@ -478,7 +478,7 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
         <div className="container mx-auto px-4 flex justify-center items-center">
           <div className="hidden md:block mr-48 text-white font-medium text-sm">Circuit de Mornay</div>
           <div className="flex items-center">
-            <h1 className={`text-xl md:text-2xl font-bold transition-all duration-300 text-white`}>
+            <h1 className={`text-xl md:text-2xl font-bold transition-all duration-300 text-white cursor-pointer hover:text-honda-red/80`} onClick={() => window.location.href = '/#registration'}>
               <span className="font-light">TH</span> <span className="text-honda-red">EXCLUSIVE</span> <span className="font-display">HONDA</span>
             </h1>
             <div className="hidden md:block ml-48 text-white font-medium text-sm">21-22 JUIN 2025</div>
@@ -527,18 +527,94 @@ export const PackRegistration: React.FC<PackRegistrationProps> = ({
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
-                  {includes.map((item, index) => (
-                    <motion.li
-                      key={index}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.1 * index }}
-                      className="flex items-center gap-2 text-gray-700"
-                    >
-                      <span className="text-honda-red">•</span>
-                      {item}
-                    </motion.li>
-                  ))}
+                  {packType === 'visiteur' && (
+                    <>
+                      <li className="flex items-start gap-2">
+                        <Check className="h-4 w-4 text-[#E60012] mt-0.5 flex-shrink-0" />
+                        <span className="text-sm">Accès complet au village à l'exposition et animations exclusives</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <Check className="h-4 w-4 text-[#E60012] mt-0.5 flex-shrink-0" />
+                        <span className="text-sm">Rencontres avec des passionnés Honda</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <Check className="h-4 w-4 text-[#E60012] mt-0.5 flex-shrink-0" />
+                        <span className="text-sm">Espaces restauration variés</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <Check className="h-4 w-4 text-[#E60012] mt-0.5 flex-shrink-0" />
+                        <span className="text-sm">Participation aux jeux, accès au stand et au concert</span>
+                      </li>
+                    </>
+                  )}
+                  {packType === 'statique' && (
+                    <>
+                      <li className="flex items-start gap-2">
+                        <Check className="h-4 w-4 text-[#E60012] mt-0.5 flex-shrink-0" />
+                        <span className="text-sm">Emplacement privilégié pour exposer votre Honda</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <Check className="h-4 w-4 text-[#E60012] mt-0.5 flex-shrink-0" />
+                        <span className="text-sm">1 accompagnant offert (5€ par accompagnant supplémentaire)</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <Check className="h-4 w-4 text-[#E60012] mt-0.5 flex-shrink-0" />
+                        <span className="text-sm">Photo officielle de votre véhicule exposé</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <Check className="h-4 w-4 text-[#E60012] mt-0.5 flex-shrink-0" />
+                        <span className="text-sm">Participation à la grande parade officielle sur le circuit</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <Check className="h-4 w-4 text-[#E60012] mt-0.5 flex-shrink-0" />
+                        <span className="text-sm">Accès à toutes les activités, stands, animations et concert</span>
+                      </li>
+                    </>
+                  )}
+                  {packType === 'piste' && (
+                    <>
+                      <li className="flex items-start gap-2">
+                        <Check className="h-4 w-4 text-[#E60012] mt-0.5 flex-shrink-0" />
+                        <span className="text-sm">Sessions exclusives de roulage sur le circuit</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <Check className="h-4 w-4 text-[#E60012] mt-0.5 flex-shrink-0" />
+                        <span className="text-sm">1 pilote supplémentaire pour seulement 10€</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <Check className="h-4 w-4 text-[#E60012] mt-0.5 flex-shrink-0" />
+                        <span className="text-sm">Photos professionnelles sur la piste</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <Check className="h-4 w-4 text-[#E60012] mt-0.5 flex-shrink-0" />
+                        <span className="text-sm">Participation à la grande parade officielle sur le circuit</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <Check className="h-4 w-4 text-[#E60012] mt-0.5 flex-shrink-0" />
+                        <span className="text-sm">Accès à toutes les activités, stands, animations et concert</span>
+                      </li>
+                    </>
+                  )}
+                  {packType === 'nsx' && (
+                    <>
+                      <li className="flex items-start gap-2">
+                        <Check className="h-4 w-4 text-[#E60012] mt-0.5 flex-shrink-0" />
+                        <span className="text-sm">Emplacement privilégié pour exposer votre Honda</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <Check className="h-4 w-4 text-[#E60012] mt-0.5 flex-shrink-0" />
+                        <span className="text-sm">Accueil VIP, cocktail privé et accès aux coulisses de l'événement</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <Check className="h-4 w-4 text-[#E60012] mt-0.5 flex-shrink-0" />
+                        <span className="text-sm">Photo officielle de votre véhicule exposé</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <Check className="h-4 w-4 text-[#E60012] mt-0.5 flex-shrink-0" />
+                        <span className="text-sm">Participation à la grande parade NSX sur le circuit</span>
+                      </li>
+                    </>
+                  )}
                 </ul>
               </CardContent>
             </Card>

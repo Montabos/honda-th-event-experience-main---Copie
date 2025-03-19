@@ -60,7 +60,7 @@ const StaticPackStep2 = () => {
         <div className="container mx-auto px-4 flex justify-center items-center">
           <div className="hidden md:block mr-48 text-white font-medium text-sm">Circuit de Mornay</div>
           <div className="flex items-center">
-            <h1 className={`text-xl md:text-2xl font-bold transition-all duration-300 text-white`}>
+            <h1 className={`text-xl md:text-2xl font-bold transition-all duration-300 text-white cursor-pointer hover:text-honda-red/80`} onClick={() => window.location.href = '/#registration'}>
               <span className="font-light">TH</span> <span className="text-honda-red">EXCLUSIVE</span> <span className="font-display">HONDA</span>
             </h1>
             <div className="hidden md:block ml-48 text-white font-medium text-sm">21-22 JUIN 2025</div>
@@ -103,24 +103,30 @@ const StaticPackStep2 = () => {
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
-                  <div className="flex flex-col">
-                    <h2 className="text-base font-medium">
-                      {packType === 'weekend' 
-                        ? `Pass Week-end - Pack Statique`
-                        : `Pass 1 jour - Pack Statique`
-                      }
-                    </h2>
+                  <div className="flex flex-col w-full">
+                    <div className="flex justify-between items-center">
+                      <h2 className="text-base font-medium">
+                        {packType === 'weekend' 
+                          ? `Pass Week-end - Pack Statique`
+                          : `Pass 1 jour - Pack Statique`
+                        }
+                      </h2>
+                      <span className="text-base font-medium ml-4">{packType === 'weekend' ? '30' : '20'}€</span>
+                    </div>
                     {accompanying > 0 && (
-                      <span className="text-sm text-gray-600 mt-1">
-                        {accompanying} {accompanying > 1 ? 'accompagnants' : 'accompagnant'}
-                      </span>
+                      <div className="flex justify-between items-center mt-1">
+                        <span className="text-sm text-gray-600">
+                          + {accompanying} {accompanying > 1 ? 'accompagnants' : 'accompagnant'} ({accompanying === 1 ? 'offert' : `${Math.min(1, accompanying)} offert${Math.min(1, accompanying) > 1 ? 's' : ''}`})
+                        </span>
+                        <span className="text-sm text-gray-600 ml-4">{Math.max(0, accompanying - 1) * 5}€</span>
+                      </div>
                     )}
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3 text-sm text-gray-600">
                   <div className="flex items-center gap-2">
                     <Info className="h-4 w-4 text-[#E60012]" />
-                    <span>Circuit de Morney</span>
+                    <span>Circuit de Mornay</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-[#E60012]" />
@@ -199,43 +205,20 @@ const StaticPackStep2 = () => {
             transition={{ delay: 0.5 }}
           >
             <Card className="border border-gray-200">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <Receipt className="h-5 w-5 text-[#E60012]" />
-                  Récapitulatif
-                </CardTitle>
-              </CardHeader>
               <CardContent>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg text-sm">
-                    <span>Pack Statique {packType === 'weekend' ? 'Week-end' : '1 jour'}</span>
-                    <span className="font-medium">{packType === 'weekend' ? '30' : '20'}€</span>
-                  </div>
-                  {accompanying > 0 && (
-                    <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg text-sm">
-                      <span>+ {accompanying} {accompanying > 1 ? 'accompagnants' : 'accompagnant'} ({accompanying === 1 ? 'offert' : `${Math.min(1, accompanying)} offert${Math.min(1, accompanying) > 1 ? 's' : ''}`})</span>
-                      <span>{Math.max(0, accompanying - 1) * 5}€</span>
-                    </div>
-                  )}
-                  {discount > 0 && (
-                    <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg text-sm text-green-700">
-                      <span>Remise</span>
-                      <span>-{discount}€</span>
-                    </div>
-                  )}
-                  <Separator className="my-4" />
-                  <div className="flex justify-between items-center p-3">
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center p-2 pt-4">
                     <span className="text-base font-medium">Total</span>
                     <span className="text-xl font-bold text-[#E60012]">{total}€</span>
                   </div>
 
                   {/* Logos de paiement */}
-                  <div className="mt-6 pt-4 border-t border-gray-100">
-                    <p className="text-center text-sm text-gray-500 mb-3">Paiement 100% sécurisé</p>
-                    <div className="flex gap-4 justify-center items-center">
-                      <img src="/payment/visa.png" alt="Visa" className="h-6 opacity-75 hover:opacity-100 transition-opacity" />
-                      <img src="/payment/mastercard.png" alt="MasterCard" className="h-6 opacity-75 hover:opacity-100 transition-opacity" />
-                      <img src="/payment/paypal.png" alt="PayPal" className="h-6 opacity-75 hover:opacity-100 transition-opacity" />
+                  <div className="mt-4 pt-3 border-t border-gray-100">
+                    <p className="text-center text-sm text-gray-500 mb-2">Paiement 100% sécurisé</p>
+                    <div className="flex items-center justify-center gap-4 mt-2">
+                      <img src="/Pictures/cb1.png" alt="Visa" className="h-6 w-auto" />
+                      <img src="/Pictures/cb2.png" alt="MasterCard" className="h-6 w-auto" />
+                      <img src="/Pictures/cb3.png" alt="PayPal" className="h-6 w-auto" />
                     </div>
                   </div>
                 </div>

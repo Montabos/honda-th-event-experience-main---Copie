@@ -167,7 +167,7 @@ const Checkout = () => {
         <div className="container mx-auto px-4 flex justify-center items-center">
           <div className="hidden md:block mr-48 text-white font-medium text-sm">Circuit de Mornay</div>
           <div className="flex items-center">
-            <h1 className={`text-xl md:text-2xl font-bold transition-all duration-300 text-white`}>
+            <h1 className={`text-xl md:text-2xl font-bold transition-all duration-300 text-white cursor-pointer hover:text-honda-red/80`} onClick={() => window.location.href = '/#registration'}>
               <span className="font-light">TH</span> <span className="text-honda-red">EXCLUSIVE</span> <span className="font-display">HONDA</span>
             </h1>
             <div className="hidden md:block ml-48 text-white font-medium text-sm">21-22 JUIN 2025</div>
