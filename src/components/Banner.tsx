@@ -70,7 +70,7 @@ const Banner = () => {
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-white px-4">
         <div className="staggered-fade-in text-center max-w-4xl">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-shadow-lg">
-            <span className="font-display">HONDA</span> <span className="font-light">TH</span> <span className="text-honda-red">EXCLUSIVE</span>
+            <span  className="font-light">TH</span> <span className="text-honda-red">EXCLUSIVE</span> <span className="font-display">HONDA</span> 
           </h1>
           <p className="text-xl md:text-3xl font-light mb-8 text-shadow">
             L'événement exclusif des passionnés Honda.
@@ -79,10 +79,15 @@ const Banner = () => {
             21-22 JUIN 2025 • CIRCUIT DE MORNAY
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button className="bg-honda-red hover:bg-honda-hover-red text-white py-6 px-8 rounded-md text-lg hover:scale-105 transition-all duration-300">
+            <Button className="bg-honda-red hover:bg-honda-hover-red text-white py-6 px-8 rounded-md text-lg hover:scale-105 transition-all duration-300" onClick={() => {
+              const registrationSection = document.getElementById('registration');
+              if (registrationSection) {
+                registrationSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}>
               Je m'inscris
             </Button>
-            <Button variant="outline" className="bg-transparent text-white border-white hover:bg-white/10 py-6 px-8 rounded-md text-lg">
+            <Button variant="outline" className="bg-transparent text-white border-white hover:bg-white/10 py-6 px-8 rounded-md text-lg" onClick={() => window.location.href = '/#about'}>
               En savoir plus
             </Button>
           </div>

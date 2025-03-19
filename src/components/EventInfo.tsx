@@ -12,7 +12,7 @@ const EventInfo = () => {
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-8 md:mb-12 text-center">
             <span className="text-honda-red font-display tracking-wider">TH EXCLUSIVE</span>
-            <span className="text-black/90 block md:inline text-2xl md:text-4xl mt-2 md:mt-0 md:ml-2">- L'ÉVÉNEMENT HONDA PAR EXCELLENCE</span>
+            <span className="text-black/90 block md:inline text-2xl md:text-4xl mt-2 md:mt-0 md:ml-2">- L'ÉVÉNEMENT PASSIONNÉ HONDA PAR EXCELLENCE</span>
           </h2>
           
           <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-start">

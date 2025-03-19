@@ -55,7 +55,7 @@ const Header = () => {
       <div className="container mx-auto px-4 flex justify-between items-center">
         <div className="flex items-center">
           <h1 className={`text-xl md:text-2xl font-bold transition-all duration-300 text-white ${scrolled ? 'scale-90' : ''}`}>
-            <span className="font-display">HONDA</span> <span className="font-light">TH</span> <span className="text-honda-red">EXCLUSIVE</span>
+            <span className="font-light">TH</span> <span className="text-honda-red">EXCLUSIVE</span> <span className="font-display">HONDA</span> 
           </h1>
           <div className="hidden md:block ml-6 text-white font-medium text-sm">21-22 JUIN 2025</div>
         </div>
@@ -70,7 +70,12 @@ const Header = () => {
           <Button 
             variant="default" 
             className="bg-honda-red hover:bg-honda-hover-red text-white px-6 hover:scale-105 transition-transform duration-200"
-            onClick={handleRegistration}
+            onClick={() => {
+              const registrationSection = document.getElementById('registration');
+              if (registrationSection) {
+                registrationSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
           >
             Inscription
           </Button>

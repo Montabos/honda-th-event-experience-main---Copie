@@ -134,8 +134,8 @@ const CarShowcase = () => {
           GALERIE <span className="text-honda-red">HONDA</span>
         </h2>
         <p className="text-center mb-12 text-honda-textMuted max-w-2xl mx-auto">
-          Découvrez les plus belles Honda qui seront présentes à notre événement.
-          Des modèles emblématiques aux éditions limitées, plongez dans l'univers Honda.
+          Vibrez au cœur de la légende Honda.<br />
+          Découvrez un rassemblement unique des plus belles Honda.
         </p>
         
         <div className="relative max-w-5xl mx-auto overflow-hidden rounded-lg shadow-xl">
@@ -183,10 +183,6 @@ const CarShowcase = () => {
                   />
                 ) : (
                   <div className="w-full h-full relative">
-                    <div 
-                      className="absolute inset-0 bg-cover bg-center"
-                      style={{ backgroundImage: `url(${item.poster})` }}
-                    />
                     <iframe
                       src={item.url}
                       className={`absolute inset-0 w-full h-full ${index === activeIndex ? '' : 'hidden'}`}
@@ -226,7 +222,7 @@ const CarShowcase = () => {
             Ces modèles et bien d'autres vous attendent lors de l'événement Honda TH Exclusive.
             Rejoignez-nous pour admirer ces véhicules d'exception en personne.
           </p>
-          <Button className="bg-honda-red hover:bg-honda-hover-red text-white">
+          <Button className="bg-honda-red hover:bg-honda-hover-red text-white" onClick={() => window.location.href = '/#registration'}>
             Je veux y être
           </Button>
         </div>

@@ -17,9 +17,9 @@ const RegistrationCards = () => {
     {
       id: "visiteur",
       title: "Visiteur",
-      price: "20€",
+      price: "12€",
       icon: <User className="h-10 w-10 text-honda-red" />,
-      description: "Accès visiteur pour tout le week-end",
+      description: "Accès visiteur à tout l'évènement",
       features: [
         "Accès au paddock",
         "Accès aux zones spectateurs",
@@ -32,14 +32,14 @@ const RegistrationCards = () => {
     {
       id: "static",
       title: "Exposition statique",
-      price: "30€",
+      price: "20€",
       icon: <Car className="h-10 w-10 text-honda-red" />,
       description: "Exposez votre Honda dans l'espace dédié",
       features: [
         "Tous les avantages du pack Visiteur",
         "Emplacement réservé pour votre véhicule",
-        "Accès à l'expo par modèle",
-        "Badge participant exclusif"
+        "Participation à la parade",
+        "Ajoutez des accompagnants !"
       ],
       highlight: false,
       route: "/pack/statique"
@@ -47,14 +47,14 @@ const RegistrationCards = () => {
     {
       id: "track",
       title: "Accès piste",
-      price: "270€",
+      price: "150€",
       icon: <PanelTop className="h-10 w-10 text-honda-red" />,
       description: "Pilotez sur le Circuit de Mornay",
       features: [
         "Tous les avantages du pack Exposition",
-        "Sessions de roulage (4 x 20 min par jour)",
+        "Sessions de roulage (piste ouverte 6h/jour)",
         "Briefing de sécurité",
-        "Assurance RC Circuit incluse"
+        "Ajoutez des pilotes/accompagnants !"
       ],
       highlight: true,
       route: "/pack/piste"
@@ -62,14 +62,14 @@ const RegistrationCards = () => {
     {
       id: "nsx-vip",
       title: "NSX Club VIP",
-      price: "45€",
+      price: "30€",
       icon: <Award className="h-10 w-10 text-honda-gold" />,
       description: "Pack exclusif pour les propriétaires NSX",
       features: [
         "Tous les avantages du pack Exposition",
         "Accès à l'espace NSX Club",
-        "Session exclusive NSX sur circuit",
-        "Goodies exclusifs NSX Club"
+        "Session exclusive paradeNSX sur circuit",
+        "Emplacement exclusif dans le parc du chateau"
       ],
       highlight: false,
       route: "/pack/nsx-club"
@@ -102,7 +102,7 @@ const RegistrationCards = () => {
         </h2>
         <p className="text-center mb-12 text-black/70 max-w-2xl mx-auto text-base md:text-lg">
           Choisissez la formule qui correspond à vos envies et à votre véhicule.
-          Paiement sécurisé par carte bancaire ou PayPal.
+          Paiement sécurisé par carte bancaire.
         </p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
@@ -124,7 +124,8 @@ const RegistrationCards = () => {
                   VIP
                 </div>
               )}
-              <CardHeader className={`pb-2 ${pkg.highlight ? 'bg-honda-red/5' : ''} ${pkg.title === "NSX Club VIP" ? 'bg-honda-gold/5' : ''}`}>
+              <div className={`absolute top-0 left-0 right-0 h-[183px] ${pkg.highlight ? 'bg-honda-red/5' : ''} ${pkg.title === "NSX Club VIP" ? 'bg-honda-gold/5' : ''}`} />
+              <CardHeader className="pb-2 relative">
                 <div className="flex justify-center mb-2">
                   <div className={`p-3 rounded-full ${
                     pkg.title === "NSX Club VIP" ? 'bg-honda-gold/10' : 'bg-honda-red/10'
@@ -135,13 +136,13 @@ const RegistrationCards = () => {
                 <CardTitle className="text-xl text-center text-black/90">{pkg.title}</CardTitle>
                 <CardDescription className="text-center text-black/60 min-h-[48px]">{pkg.description}</CardDescription>
               </CardHeader>
-              <CardContent className="pt-0">
+              <CardContent className="pt-0 h-[280px]">
                 <div className="text-center mb-6 h-[60px] flex flex-col justify-center">
                   <div className="flex items-baseline justify-center">
                     <span className="text-4xl font-bold text-black/90">{pkg.price.replace('€', '')}</span>
                     <span className="text-xl font-medium text-black/90 ml-1">€</span>
                   </div>
-                  <span className="text-sm text-black/60 mt-1">/ week-end</span>
+                  <span className="text-sm text-black/60 mt-1">/ jour</span>
                 </div>
                 <ul className="space-y-3">
                   {pkg.features.map((feature, i) => (
@@ -182,9 +183,9 @@ const RegistrationCards = () => {
             vous sera envoyé avec tous les détails pratiques.
           </p>
           <div className="flex justify-center gap-6 items-center">
-            <img src="https://cdn.worldvectorlogo.com/logos/visa-2.svg" alt="Visa" className="h-8 md:h-10 opacity-80 hover:opacity-100 transition-opacity duration-200" />
-            <img src="https://cdn.worldvectorlogo.com/logos/mastercard-2.svg" alt="Mastercard" className="h-8 md:h-10 opacity-80 hover:opacity-100 transition-opacity duration-200" />
-            <img src="https://cdn.worldvectorlogo.com/logos/paypal-2.svg" alt="PayPal" className="h-8 md:h-10 opacity-80 hover:opacity-100 transition-opacity duration-200" />
+            <img src="/Pictures/cb1.png" alt="CB1" className="h-6 md:h-8 opacity-80 hover:opacity-100 transition-opacity duration-200" />
+            <img src="/Pictures/cb2.png" alt="CB2" className="h-6 md:h-8 opacity-80 hover:opacity-100 transition-opacity duration-200" />
+            <img src="/Pictures/cb3.png" alt="CB3" className="h-6 md:h-8 opacity-80 hover:opacity-100 transition-opacity duration-200" />
           </div>
         </div>
       </div>

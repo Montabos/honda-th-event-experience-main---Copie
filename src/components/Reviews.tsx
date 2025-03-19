@@ -37,13 +37,22 @@ const Reviews = () => {
       featured: true
     },
     {
-      name: "Marie Dubois",
-      role: "Propriétaire Civic Type R",
-      year: "2024",
+      name: "Alexandre Morel",
+      role: "Propriétaire Honda S2000",
+      year: "2023",
       rating: 5,
-      text: "La qualité de l'organisation et l'ambiance étaient au rendez-vous. Les food trucks étaient délicieux et les animations très variées.",
+      text: "Une expérience incroyable du début à la fin ! J'ai pu pousser ma S2000 sur piste en toute sécurité et échanger avec d'autres passionnés. L'organisation était impeccable, et l'ambiance dans le paddock était géniale.",
       featured: false
     },
+    {
+      name: "Julien Lefevre",
+      role: "Propriétaire Integra Type R",
+      year: "2022",
+      rating: 5,
+      text: "C'était ma première participation et certainement pas la dernière ! Voir autant de Honda réunies en un seul endroit, c'est impressionnant. La parade de clôture avec toutes les voitures était un moment magique.",
+      featured: false
+    },
+
     {
       name: "Pierre Martin",
       role: "Propriétaire S2000",
@@ -52,14 +61,6 @@ const Reviews = () => {
       text: "Une expérience unique qui m'a permis de découvrir le circuit de Mornay dans des conditions optimales. Les sessions de roulage étaient parfaitement encadrées.",
       image: "/Pictures/track.jpg",
       featured: true
-    },
-    {
-      name: "Sophie Bernard",
-      role: "Propriétaire Type R",
-      year: "2023",
-      rating: 5,
-      text: "L'événement était à la hauteur de mes attentes. L'organisation était impeccable et l'ambiance entre participants était fantastique.",
-      featured: false
     }
   ];
 
@@ -118,7 +119,7 @@ const Reviews = () => {
           <Button 
             variant="default"
             className="bg-honda-red hover:bg-honda-hover-red text-white px-8 py-3 rounded-md transition-all duration-300"
-            onClick={handleRegistration}
+            onClick={() => window.location.href = '/#registration'}
           >
             Je m'inscris
           </Button>

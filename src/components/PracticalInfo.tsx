@@ -103,19 +103,22 @@ const PracticalInfo = () => {
                 Y a-t-il des hébergements recommandés à proximité ?
               </AccordionTrigger>
               <AccordionContent className="text-black/70 px-6 pb-4">
-                Nous avons des partenariats avec plusieurs établissements à proximité du circuit. 
-                La liste complète avec codes de réduction sera envoyée par email après votre inscription.
+              Plusieurs hébergements sont disponibles près du Circuit de Mornay :
+    <ul className="list-disc pl-5 mt-2">
+      <li><strong>Domaine des Dryades</strong> (Pouligny-Notre-Dame) : Hôtel 4 étoiles avec spa et golf.</li>
+      <li><strong>Ibis Styles Guéret</strong> et <strong>Campanile Guéret</strong> : Options confortables avec restaurant.</li>
+      <li><strong>La Bonne Auberge</strong> et <strong>Le Relais d'Oc</strong> : Séjours authentiques et cuisine locale.</li>
+      <li><strong>Airbnb</strong> : Locations disponibles dans les environs.</li>
+    </ul>
               </AccordionContent>
             </AccordionItem>
             
-            <AccordionItem value="item-5" className="border rounded-xl overflow-hidden bg-white">
+            <AccordionItem value="passagers-roulage" className="border rounded-xl overflow-hidden bg-white">
               <AccordionTrigger className="text-black/90 hover:text-honda-red px-6 py-4 transition-all duration-200">
-                Les accompagnateurs doivent-ils payer l'entrée ?
+                Les passagers sont-ils autorisés en roulage ?
               </AccordionTrigger>
               <AccordionContent className="text-black/70 px-6 pb-4">
-                Oui, tous les accompagnateurs doivent s'acquitter du tarif visiteur de 20€. 
-                Les enfants de moins de 12 ans bénéficient d'une entrée gratuite (sous surveillance 
-                d'un adulte).
+                Oui, sous réserve qu'ils portent un casque homologué et respectent les consignes de sécurité.
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -127,19 +130,19 @@ const PracticalInfo = () => {
             <div className="text-center transform transition-all duration-300 hover:scale-[1.02]">
               <h4 className="font-semibold mb-2 text-black/90">Little Tokyo</h4>
               <p className="text-sm text-black/70 mb-2">Cuisine japonaise</p>
-              <p className="text-sm font-medium text-honda-red">Plats à partir de 10€</p>
+              <p className="text-sm font-medium text-honda-red">Plats à partir de 8€</p>
             </div>
             
             <div className="text-center transform transition-all duration-300 hover:scale-[1.02]">
               <h4 className="font-semibold mb-2 text-black/90">Pit Stop Burger</h4>
               <p className="text-sm text-black/70 mb-2">Burgers & Frites</p>
-              <p className="text-sm font-medium text-honda-red">Plats à partir de 9€</p>
+              <p className="text-sm font-medium text-honda-red">Plats à partir de 4.50€</p>
             </div>
             
             <div className="text-center transform transition-all duration-300 hover:scale-[1.02]">
               <h4 className="font-semibold mb-2 text-black/90">Green Paddock</h4>
               <p className="text-sm text-black/70 mb-2">Options végétariennes</p>
-              <p className="text-sm font-medium text-honda-red">Plats à partir de 8€</p>
+              <p className="text-sm font-medium text-honda-red">Plats à partir de 6€</p>
             </div>
           </div>
         </div>

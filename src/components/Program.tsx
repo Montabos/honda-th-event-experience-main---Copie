@@ -8,24 +8,23 @@ const Program = () => {
   
   const saturdayProgram = [
     { time: "08:00", title: "Ouverture des portes", description: "Accueil des participants et vérifications", icon: <Clock className="h-5 w-5" /> },
-    { time: "09:30", title: "Session de roulage groupe A", description: "Modèles Type R et préparés", icon: <Car className="h-5 w-5" /> },
-    { time: "11:00", title: "Session de roulage groupe B", description: "S2000 et autres modèles", icon: <Car className="h-5 w-5" /> },
-    { time: "12:30", title: "Pause déjeuner", description: "Profitez de nos food trucks", icon: <Clock className="h-5 w-5" /> },
-    { time: "14:00", title: "Grande parade NSX", description: "Rassemblement de tous les NSX présents", icon: <Flag className="h-5 w-5" /> },
-    { time: "15:30", title: "Session de roulage libre", description: "Tous modèles confondus", icon: <Car className="h-5 w-5" /> },
-    { time: "18:00", title: "Concert", description: "Live music avec le groupe Octane", icon: <Music className="h-5 w-5" /> },
+    { time: "08:30 - 09:00", title: "Briefing", description: "Rappel des consignes et informations essentielles", icon: <Flag className="h-5 w-5" /> },
+    { time: "09:00 - 12:00", title: "Ouverture de la piste", description: "Sessions de roulage", icon: <Car className="h-5 w-5" /> },
+    { time: "12:15 - 12:45", title: "Grand parade NSX", description: "Rassemblement de tous les NSX présentes", icon: <Flag className="h-5 w-5" /> },
+    { time: "13:30 - 16:30", title: "Réouverture de la piste", description: "Sessions de roulage", icon: <Car className="h-5 w-5" /> },
+    { time: "17:00", title: "Parade lente sur circuit", description: "Tous les modèles Honda présents défilent sur la piste", icon: <Flag className="h-5 w-5" /> },
+    { time: "18:00 - 20:00", title: "Concert + Tombola", description: "Live musique et tirage de la tombola du samedi", icon: <Music className="h-5 w-5" /> },
     { time: "20:00", title: "Fermeture des portes", description: "À demain pour la suite des festivités!", icon: <Clock className="h-5 w-5" /> },
   ];
   
   const sundayProgram = [
-    { time: "08:30", title: "Ouverture des portes", description: "Dernier jour pour profiter de l'événement", icon: <Clock className="h-5 w-5" /> },
-    { time: "09:30", title: "Session de roulage exclusive NSX", description: "Réservée au club NSX", icon: <Car className="h-5 w-5" /> },
-    { time: "11:00", title: "Parade Type R", description: "Toutes générations confondues", icon: <Flag className="h-5 w-5" /> },
-    { time: "12:30", title: "Pause déjeuner", description: "Profitez de nos food trucks", icon: <Clock className="h-5 w-5" /> },
-    { time: "14:00", title: "Session de roulage groupes A et B", description: "Alternance toutes les 20 minutes", icon: <Car className="h-5 w-5" /> },
-    { time: "16:30", title: "Parade de clôture", description: "Tous modèles Honda confondus", icon: <Flag className="h-5 w-5" /> },
-    { time: "17:30", title: "Tombola et remise des prix", description: "De nombreux lots à gagner", icon: <Gift className="h-5 w-5" /> },
-    { time: "19:00", title: "Fermeture de l'événement", description: "À l'année prochaine!", icon: <Clock className="h-5 w-5" /> },
+    { time: "08:00", title: "Ouverture des portes", description: "Accueil des participants et vérifications", icon: <Clock className="h-5 w-5" /> },
+    { time: "08:30 - 09:00", title: "Briefing", description: "Rappel des consignes et informations essentielles", icon: <Flag className="h-5 w-5" /> },
+    { time: "09:00 - 12:00", title: "Ouverture de la piste", description: "Sessions de roulage", icon: <Car className="h-5 w-5" /> },
+    { time: "12:15 - 12:45", title: "Tirage Tombola", description: "De nombreux lots à gagner", icon: <Gift className="h-5 w-5" /> },
+    { time: "13:30 - 16:30", title: "Réouverture de la piste", description: "Sessions de roulage", icon: <Car className="h-5 w-5" /> },
+    { time: "17:00", title: "Parade de clôture", description: "Défilé final avec toutes les voitures présentes", icon: <Flag className="h-5 w-5" /> },
+    { time: "18:00", title: "Fin de l'événement", description: "À l'année prochaine!", icon: <Clock className="h-5 w-5" /> },
   ];
 
   return (
@@ -102,7 +101,16 @@ const Program = () => {
                         }}
                       >
                         <div className="flex items-start">
-                          <div className="mr-4 min-w-16 text-honda-red font-mono">{item.time}</div>
+                          <div className="mr-4 min-w-16 text-honda-red font-mono">
+                            {item.time.includes('-') ? (
+                              <div className="flex flex-col">
+                                <span>{item.time.split('-')[0].trim()}</span>
+                                <span>{item.time.split('-')[1].trim()}</span>
+                              </div>
+                            ) : (
+                              item.time
+                            )}
+                          </div>
                           <div>
                             <h3 className="text-lg font-medium flex items-center">
                               <span className="mr-2 text-honda-red">{item.icon}</span> 
@@ -134,7 +142,16 @@ const Program = () => {
                         }}
                       >
                         <div className="flex items-start">
-                          <div className="mr-4 min-w-16 text-honda-red font-mono">{item.time}</div>
+                          <div className="mr-4 min-w-16 text-honda-red font-mono">
+                            {item.time.includes('-') ? (
+                              <div className="flex flex-col">
+                                <span>{item.time.split('-')[0].trim()}</span>
+                                <span>{item.time.split('-')[1].trim()}</span>
+                              </div>
+                            ) : (
+                              item.time
+                            )}
+                          </div>
                           <div>
                             <h3 className="text-lg font-medium flex items-center">
                               <span className="mr-2 text-honda-red">{item.icon}</span> 
