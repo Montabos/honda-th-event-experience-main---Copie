@@ -159,6 +159,21 @@ const StaticPackStep2 = () => {
                       <p className="text-sm text-gray-500">Envoyé par email après confirmation</p>
                     </div>
                   </div>
+                  <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                    <Info className="h-5 w-5 text-[#E60012] mt-1" />
+                    <div>
+                      <p className="text-sm text-gray-700">
+                        Un second email vous sera envoyé pour déposer les informations obligatoires relatives à votre véhicule :
+                      </p>
+                      <ul className="text-sm text-gray-700 list-disc ml-4 mt-2">
+                        <li>Marque / Modèle / Code moteur</li>
+                        <li>1 Photo de la voiture</li>
+                      </ul>
+                      <p className="text-sm text-gray-700 mt-2 italic">
+                        Assurez-vous d'avoir ces documents prêts avant l'inscription.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>

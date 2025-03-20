@@ -198,6 +198,30 @@ const PistePackStep2 = () => {
                       <p className="text-sm text-gray-500">Envoyé par email après confirmation</p>
                     </div>
                   </div>
+                  <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                    <Info className="h-5 w-5 text-[#E60012] mt-1" />
+                    <div>
+                      <p className="text-sm text-gray-700">
+                        Un second email vous sera envoyé pour déposer les documents obligatoires :
+                      </p>
+                      <div className="mt-2">
+                        <p className="text-sm font-medium text-gray-700">Véhicule :</p>
+                        <ul className="text-sm text-gray-700 list-disc ml-4">
+                          <li>Marque / Modèle / Code moteur / Photo</li>
+                          <li>Nom assureur / N° police</li>
+                          <li>Carte grise</li>
+                          <li>Responsabilité civile circuit</li>
+                        </ul>
+                      </div>
+                      <div className="mt-2">
+                        <p className="text-sm font-medium text-gray-700">Pilote(s) :</p>
+                        <ul className="text-sm text-gray-700 list-disc ml-4">
+                          <li>NomPrénom</li>
+                          <li>Copie du permis de conduire</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
