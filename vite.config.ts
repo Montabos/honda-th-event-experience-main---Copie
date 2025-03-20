@@ -18,9 +18,18 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+    dedupe: ['react', 'react-dom']
   },
   optimizeDeps: {
-    include: ['node-mailjet', 'react', 'react-dom']
+    include: [
+      'react',
+      'react-dom',
+      'react/jsx-runtime',
+      '@radix-ui/react-compose-refs',
+      '@radix-ui/react-context',
+      '@radix-ui/react-collection'
+    ],
+    force: true
   },
   build: {
     modulePreload: {
@@ -28,19 +37,19 @@ export default defineConfig(({ mode }) => ({
     },
     rollupOptions: {
       output: {
-        format: 'es',
-        entryFileNames: 'assets/[name]-[hash].js',
-        chunkFileNames: 'assets/[name]-[hash].js',
-        assetFileNames: 'assets/[name]-[hash].[ext]',
         manualChunks: (id) => {
           if (id.includes('node_modules')) {
-            if (id.includes('react/') || id.includes('react-dom/')) {
-              return 'react-vendor';
+            if (id.includes('react') || id.includes('@radix-ui')) {
+              return 'vendor';
             }
-            return 'vendor';
           }
         }
       }
+    },
+    commonjsOptions: {
+      include: [/node_modules/],
+      extensions: ['.js', '.cjs', '.jsx', '.tsx'],
+      transformMixedEsModules: true
     }
   }
 }));
