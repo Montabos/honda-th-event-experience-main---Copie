@@ -17,23 +17,30 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      "react": path.resolve(__dirname, "node_modules/react"),
-      "react-dom": path.resolve(__dirname, "node_modules/react-dom"),
     },
   },
   optimizeDeps: {
     include: ['node-mailjet', 'react', 'react-dom']
   },
   build: {
-    commonjsOptions: {
-      include: [/node-mailjet/, /react/, /react-dom/]
+    modulePreload: {
+      polyfill: true
     },
     rollupOptions: {
       output: {
-        manualChunks: {
-          'react-vendor': ['react', 'react-dom'],
-        },
-      },
-    },
+        format: 'es',
+        entryFileNames: 'assets/[name]-[hash].js',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]',
+        manualChunks: (id) => {
+          if (id.includes('node_modules')) {
+            if (id.includes('react/') || id.includes('react-dom/')) {
+              return 'react-vendor';
+            }
+            return 'vendor';
+          }
+        }
+      }
+    }
   }
 }));
